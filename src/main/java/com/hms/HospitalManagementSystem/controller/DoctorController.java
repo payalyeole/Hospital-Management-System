@@ -26,11 +26,11 @@ public class DoctorController {
         return null;
     }
 
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     public void deleteDoctor(@PathVariable Long id){
     }
 
-    @GetMapping("/{id}")
+    @PutMapping("/{id}")
     public void updateDoctor(@PathVariable Long id){
     }
 }

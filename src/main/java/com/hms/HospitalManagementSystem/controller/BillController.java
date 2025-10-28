@@ -27,11 +27,11 @@ public class BillController {
         return null;
     }
 
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     public void deleteBill(@PathVariable Long id){
     }
 
-    @GetMapping("/{id}")
+    @PutMapping("/{id}")
     public void updateBill(@PathVariable Long id) {
     }
 

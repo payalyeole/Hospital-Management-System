@@ -26,11 +26,11 @@ public class AppointmentController {
         return null;
     }
 
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     public void deleteAppointment(@PathVariable Long id){
     }
 
-    @GetMapping("/{id}")
+    @PutMapping("/{id}")
     public void updateAppointment(@PathVariable Long id){
     }
 }
