@@ -1,6 +1,8 @@
 package com.hms.HospitalManagementSystem.controller;
 
 import com.hms.HospitalManagementSystem.models.Appointment;
+import com.hms.HospitalManagementSystem.service.AppointmentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,28 +11,33 @@ import java.util.List;
 @RequestMapping("/api/v1/appointments")
 public class AppointmentController {
 
+    @Autowired
+    private AppointmentService appointmentService;
+
     @GetMapping
     public List<Appointment> getAllAppointment(){
         System.out.println("Fetching ");
-        return null;
+        return appointmentService.getAllAppointments();
     }
     @PostMapping
     public Appointment createAppointment(@RequestBody Appointment appointment){
         System.out.println("Creating appointment");
-        return appointment;
+        return appointmentService.createAppointment(appointment);
     }
 
     @GetMapping("/{id}")
     public Appointment getAppointmentById(@PathVariable Long id){
         System.out.println("Fetching id by ID");
-        return null;
+        return appointmentService.getAppointmentById(id);
     }
 
     @DeleteMapping("/{id}")
     public void deleteAppointment(@PathVariable Long id){
+        appointmentService.deleteAppointment(id);
     }
 
     @PutMapping("/{id}")
     public void updateAppointment(@PathVariable Long id){
+        appointmentService.updateAppointment(id);
     }
 }
