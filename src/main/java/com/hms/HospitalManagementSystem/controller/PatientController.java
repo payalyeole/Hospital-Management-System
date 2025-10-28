@@ -1,6 +1,8 @@
 package com.hms.HospitalManagementSystem.controller;
 
 import com.hms.HospitalManagementSystem.models.Patient;
+import com.hms.HospitalManagementSystem.service.PatientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -10,29 +12,34 @@ import java.util.List;
 @RequestMapping("api/v1/patients")
 public class PatientController {
 
+    @Autowired
+    private PatientService patientService;
+
     @GetMapping
     public List<Patient> getAllPatients(){
         System.out.println("Fetching ");
-        return null;
+        return patientService.getAllPatients();
     }
     @PostMapping
     public Patient createPatient(@RequestBody Patient patient){
         System.out.println("Creating patient");
 
-        return  patient;
+        return patientService.createPatient(patient);
     }
 
     @GetMapping("/{id}")
     public Patient getPatientById(@PathVariable Long id){
         System.out.println("Fetching id by ID");
-        return null;
+        return patientService.getPatientById(id);
     }
 
     @GetMapping("/{id}")
     public void deletePatient(@PathVariable Long id){
+        patientService.deletePatient(id);
     }
 
     @GetMapping("/{id}")
     public void updatePatient(@PathVariable Long id){
+        patientService.updatePatient(id);
     }
 }
