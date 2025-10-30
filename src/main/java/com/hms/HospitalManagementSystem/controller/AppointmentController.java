@@ -37,7 +37,7 @@ public class AppointmentController {
     }
 
     @PutMapping("/{id}")
-    public void updateAppointment(@PathVariable Long id){
-        appointmentService.updateAppointment(id);
+    public Appointment updateAppointment(@PathVariable Long id, Appointment appointment){
+        return appointmentService.updateAppointment(id, appointment);
     }
 }

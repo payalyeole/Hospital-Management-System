@@ -52,12 +52,13 @@ public class BillService {
         }
     }
 
-    public void updateBill(Long id){
+    public Bill updateBill(Long id, Bill bill){
         try{
-
+            return null;
         }catch (Exception e){
             System.out.println("Error message: "+e.getMessage());
             logger.error("An error occurred while updating bill {}", e.getMessage());
+            return null;
         }
     }
 }

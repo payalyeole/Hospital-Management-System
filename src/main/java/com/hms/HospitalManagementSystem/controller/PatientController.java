@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/patients")
-public class PatientController {
+public class PatientController<patient> {
 
     @Autowired
     private PatientService patientService;
@@ -39,7 +39,8 @@ public class PatientController {
     }
 
     @PutMapping("/{id}")
-    public void updatePatient(@PathVariable Long id){
-        patientService.updatePatient(id);
+    public Patient updatePatient(@PathVariable Long id, @RequestBody Patient patient){
+        System.out.println("Update patient wit ID: "+id);
+        return patientService.updatePatient(id, patient);
     }
 }

@@ -53,12 +53,13 @@ public class AppointmentService {
         }
     }
 
-    public void updateAppointment(Long id){
+    public Appointment updateAppointment(Long id , Appointment appointment){
         try{
-
+            return null;
         }catch (Exception e){
             System.out.println("Error message: "+e.getMessage());
             logger.error("An error occurred while updating appointment{}", e.getMessage());
+            return null;
         }
     }
 }

@@ -52,12 +52,13 @@ public class PatientService {
         }
     }
 
-    public void updatePatient(Long id){
+    public Patient updatePatient(Long id, Patient patient){
         try{
-
+            return null;
         }catch (Exception e){
             System.out.println("Error message: "+e.getMessage());
             logger.error("An error occurred while updating patient {} ", e.getMessage());
+            return null;
         }
     }
 }
