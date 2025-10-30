@@ -17,7 +17,7 @@ public class PatientController {
 
     @GetMapping
     public List<Patient> getAllPatients(){
-        System.out.println("Fetching ");
+        System.out.println("Fetching from Patient");
         return patientService.getAllPatients();
     }
     @PostMapping

@@ -16,7 +16,7 @@ public class BillController {
 
     @GetMapping
     public List<Bill> getAllBills(){
-        System.out.println("Fetching ");
+        System.out.println("Fetching from Bill");
         return billService.getAllBills();
     }
 

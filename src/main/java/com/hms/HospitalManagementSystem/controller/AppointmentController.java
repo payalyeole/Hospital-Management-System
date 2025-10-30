@@ -16,7 +16,7 @@ public class AppointmentController {
 
     @GetMapping
     public List<Appointment> getAllAppointment(){
-        System.out.println("Fetching ");
+        System.out.println("Fetching from Appointment");
         return appointmentService.getAllAppointments();
     }
     @PostMapping
