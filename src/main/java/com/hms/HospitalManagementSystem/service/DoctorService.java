@@ -1,7 +1,7 @@
 package com.hms.HospitalManagementSystem.service;
 
 import com.hms.HospitalManagementSystem.models.Doctor;
-import com.hms.HospitalManagementSystem.repository.PatientRepository;
+import com.hms.HospitalManagementSystem.repository.DoctorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import com.hms.HospitalManagementSystem.repository.DoctorRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DoctorService {
@@ -35,7 +35,8 @@ public class DoctorService {
 
     public Doctor getDoctorById(Long id){
         try{
-            return null;
+            Optional <Doctor> doctor = doctorRepository.findById(id);
+            return doctor.orElse(null);
         }catch (Exception e){
             System.out.println("Error message: " +e.getMessage());
             logger.error("An error occurred while fetching doctor by id {} : {}", id, e.getMessage());
@@ -45,7 +46,8 @@ public class DoctorService {
 
     public Doctor createDoctor(Doctor doctor){
         try{
-            return null;
+            doctorRepository.save(doctor);
+            return doctor;
         }catch (Exception e){
             System.out.println("Error message: " +e.getMessage());
             logger.error("An error occurred while creating doctor {}", e.getMessage());
@@ -55,16 +57,27 @@ public class DoctorService {
 
     public void deleteDoctor(Long id){
         try{
-
+            logger.info("Deleting doctor by ID: {}" , id);
+            doctorRepository.deleteById(id);
         }catch (Exception e){
             System.out.println("Error message: "+e.getMessage());
             logger.error("An error occurred while deleting doctor by id {}", e.getMessage());
         }
     }
 
-    public Doctor updateDoctor(Long id, Doctor doctor){
+    public Doctor updateDoctor(Long id, Doctor updateDoctor){
         try{
-            return null;
+            Optional <Doctor> existingDoctor = doctorRepository.findById(id);
+            if (existingDoctor.isPresent()){
+                Doctor d = existingDoctor.get();;
+                d.setName(updateDoctor.getName());
+                d.setSpeciality(updateDoctor.getSpeciality());
+                doctorRepository.save(d);
+                return updateDoctor;
+            }else {
+                logger.error("Doctor with Id {} not found", id);
+                return null;
+            }
         }catch (Exception e){
             System.out.println("Error message: "+e.getMessage());
             logger.error("An error occurred while updating doctor {}", e.getMessage());

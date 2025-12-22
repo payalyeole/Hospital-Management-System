@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppointmentService {
@@ -33,7 +34,8 @@ public class AppointmentService {
 
     public Appointment getAppointmentById(Long id){
         try{
-            return null;
+            Optional <Appointment> appointment = appointmentRepository.findById(id);
+            return appointment.orElse(null);
         }catch (Exception e){
             System.out.println("Error message: " +e.getMessage());
             logger.error("An error occurred while fetching appointment by id {} : {}", id, e.getMessage());
@@ -43,7 +45,8 @@ public class AppointmentService {
 
     public Appointment createAppointment(Appointment appointment){
         try{
-            return null;
+            appointmentRepository.save(appointment);
+            return appointment;
         }catch (Exception e){
             System.out.println("Error message: " +e.getMessage());
             logger.error("An error occurred while creating appointment {}", e.getMessage());
@@ -53,16 +56,29 @@ public class AppointmentService {
 
     public void deleteAppointment(Long id){
         try{
-
+            logger.info("Deleting appointment by ID: {}", id);
+            appointmentRepository.deleteById(id);
         }catch (Exception e){
             System.out.println("Error message: "+e.getMessage());
             logger.error("An error occurred while deleting appointment {}", e.getMessage());
         }
     }
 
-    public Appointment updateAppointment(Long id , Appointment appointment){
+    public Appointment updateAppointment(Long id , Appointment updateAppointment){
         try{
-            return null;
+            Optional <Appointment> existingAppointment = appointmentRepository.findById(id);
+            if(existingAppointment.isPresent()){
+                Appointment a = existingAppointment.get();
+                a.setDate(updateAppointment.getDate());
+                a.setDoctorId(updateAppointment.getDoctorId());
+                a.setPatientId(updateAppointment.getPatientId());
+                appointmentRepository.save(a);
+                return updateAppointment;
+            }else {
+                logger.error("Appointment with Id {} not found", id);
+                return null;
+            }
+
         }catch (Exception e){
             System.out.println("Error message: "+e.getMessage());
             logger.error("An error occurred while updating appointment{}", e.getMessage());

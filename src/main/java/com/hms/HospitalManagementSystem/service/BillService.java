@@ -1,6 +1,7 @@
 package com.hms.HospitalManagementSystem.service;
 
 import com.hms.HospitalManagementSystem.models.Bill;
+import com.hms.HospitalManagementSystem.models.Doctor;
 import com.hms.HospitalManagementSystem.repository.BillRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BillService {
@@ -34,7 +36,8 @@ public class BillService {
 
     public Bill getBillById(Long id){
         try{
-            return null;
+            Optional <Bill> bill = billRepository.findById(id);
+            return bill.orElse(null);
         }catch (Exception e){
             System.out.println("Error message: " +e.getMessage());
             logger.error("An error occurred while fetching bill by id {} : {}", id, e.getMessage());
@@ -44,7 +47,8 @@ public class BillService {
 
     public Bill createBill(Bill bill){
         try{
-            return null;
+            billRepository.save(bill);
+            return bill;
         }catch (Exception e){
             System.out.println("Error message: " +e.getMessage());
             logger.error("An error occurred while creating creating {}", e.getMessage());
@@ -54,16 +58,30 @@ public class BillService {
 
     public void deleteBill(Long id){
         try{
-
+            logger.info("Deleting patient by ID: {}",id);
+            billRepository.deleteById(id);
         }catch (Exception e){
             System.out.println("Error message: "+e.getMessage());
             logger.error("An error occurred while deleting bill {}", e.getMessage());
         }
     }
 
-    public Bill updateBill(Long id, Bill bill){
+    public Bill updateBill(Long id, Bill updateBill){
         try{
-            return null;
+            Optional <Bill> existingBill = billRepository.findById(id);
+
+            if (existingBill.isPresent()){
+                Bill b = existingBill.get();
+                b.setAmount(updateBill.getAmount());
+                b.setStatus(updateBill.getStatus());
+                b.setPatientId(updateBill.getPatientId());
+                billRepository.save(b);
+                return updateBill;
+            }else {
+                logger.error("Bill with Id {} not found", id);
+                return null;
+            }
+
         }catch (Exception e){
             System.out.println("Error message: "+e.getMessage());
             logger.error("An error occurred while updating bill {}", e.getMessage());
