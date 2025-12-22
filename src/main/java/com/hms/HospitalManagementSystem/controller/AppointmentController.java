@@ -3,6 +3,7 @@ package com.hms.HospitalManagementSystem.controller;
 import com.hms.HospitalManagementSystem.models.Appointment;
 import com.hms.HospitalManagementSystem.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,9 +16,9 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
     @GetMapping
-    public List<Appointment> getAllAppointment(){
+    public Page<Appointment> getAllAppointment(@RequestParam(defaultValue = "0")int page, @RequestParam(defaultValue = "2") int size){
         System.out.println("Fetching from Appointment");
-        return appointmentService.getAllAppointments();
+        return appointmentService.getAllAppointments(page, size);
     }
     @PostMapping
     public Appointment createAppointment(@RequestBody Appointment appointment){

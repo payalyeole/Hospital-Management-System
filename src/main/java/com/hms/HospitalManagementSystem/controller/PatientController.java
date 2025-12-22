@@ -18,14 +18,13 @@ public class PatientController<patient> {
 
     @GetMapping
     public Page<Patient> getAllPatients(@RequestParam(defaultValue = "0") int page,
-                                        @RequestParam(defaultValue = "4") int size){
+                                        @RequestParam(defaultValue = "2") int size){
         System.out.println("Fetching from Patient");
         return patientService.getAllPatients(page, size);
     }
     @PostMapping
     public Patient createPatient(@RequestBody Patient patient){
         System.out.println("Creating patient");
-
         return patientService.createPatient(patient);
     }
 

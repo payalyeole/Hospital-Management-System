@@ -2,6 +2,8 @@ package com.hms.HospitalManagementSystem.controller;
 import com.hms.HospitalManagementSystem.models.Doctor;
 import com.hms.HospitalManagementSystem.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,9 +15,10 @@ public class DoctorController {
     private DoctorService doctorService;
 
     @GetMapping
-    public List<Doctor> getAllDoctors(){
+    public Page<Doctor> getAllDoctors(@RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "2") int size){
         System.out.println("Fetching from Doctor");
-        return doctorService.getAllDoctors();
+        return doctorService.getAllDoctors(page, size);
     }
     @PostMapping
     public Doctor createDoctor(@RequestBody Doctor doctor){

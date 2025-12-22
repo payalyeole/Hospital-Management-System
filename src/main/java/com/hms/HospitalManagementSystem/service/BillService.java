@@ -1,8 +1,13 @@
 package com.hms.HospitalManagementSystem.service;
 
 import com.hms.HospitalManagementSystem.models.Bill;
+import com.hms.HospitalManagementSystem.repository.BillRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,10 +17,14 @@ public class BillService {
 
     private static final Logger logger = LoggerFactory.getLogger(BillService.class);
 
-    public List<Bill> getAllBills(){
+    @Autowired
+    private BillRepository billRepository;
+
+    public Page<Bill> getAllBills(int page, int size){
         try{
             System.out.println("into service layer");
-            return null;
+            Pageable pageable = PageRequest.of(page, size);
+            return billRepository.findAll(pageable);
         }catch (Exception e){
             System.out.println("Error message: " +e.getMessage());
             logger.error("An error occurred while fetching all bill {}", e.getMessage());
