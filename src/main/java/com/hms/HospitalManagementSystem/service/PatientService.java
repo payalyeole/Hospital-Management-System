@@ -5,6 +5,9 @@ import com.hms.HospitalManagementSystem.repository.PatientRepository;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +21,11 @@ public class PatientService {
     @Autowired
     private PatientRepository patientRepository;
 
-    public List<Patient> getAllPatients(){
+    public Page<Patient> getAllPatients(int page, int size){
         try{
             System.out.println("Into service layer");
-            return patientRepository.findAll();
+            Pageable pageable = PageRequest.of(page, size);
+            return patientRepository.findAll(pageable);
         }catch (Exception e){
             System.out.println("Error message: " +e.getMessage());
             logger.error("An error occurred while fetching all patient: {}", e.getMessage());
@@ -66,15 +70,15 @@ public class PatientService {
             Optional <Patient> existingPatient = patientRepository.findById(id);
             if (existingPatient.isPresent()){
                 Patient p = existingPatient.get();
-//                p.setName(updatedPatient.getName());
-//                p.setAge(updatedPatient.getAge());
-//                p.setGender(updatedPatient.getGender());
+                p.setName(updatedPatient.getName());
+                p.setAge(updatedPatient.getAge());
+                p.setGender(updatedPatient.getGender());
                 patientRepository.save(p);
                 return updatedPatient;
             }else {
                 logger.error("Patient with Id {} not found" , id);
+                return null;
             }
-            return null;
         }catch (Exception e){
             System.out.println("Error message: "+e.getMessage());
             logger.error("An error occurred while updating patient {} ", e.getMessage());

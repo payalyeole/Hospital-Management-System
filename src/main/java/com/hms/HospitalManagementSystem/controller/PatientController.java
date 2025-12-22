@@ -3,6 +3,7 @@ package com.hms.HospitalManagementSystem.controller;
 import com.hms.HospitalManagementSystem.models.Patient;
 import com.hms.HospitalManagementSystem.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -16,9 +17,10 @@ public class PatientController<patient> {
     private PatientService patientService;
 
     @GetMapping
-    public List<Patient> getAllPatients(){
+    public Page<Patient> getAllPatients(@RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "4") int size){
         System.out.println("Fetching from Patient");
-        return patientService.getAllPatients();
+        return patientService.getAllPatients(page, size);
     }
     @PostMapping
     public Patient createPatient(@RequestBody Patient patient){
