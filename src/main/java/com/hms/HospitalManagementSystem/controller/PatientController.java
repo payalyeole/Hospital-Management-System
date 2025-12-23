@@ -7,10 +7,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("api/v1/patients")
-public class PatientController<patient> {
+public class PatientController{
 
     @Autowired
     private PatientService patientService;
