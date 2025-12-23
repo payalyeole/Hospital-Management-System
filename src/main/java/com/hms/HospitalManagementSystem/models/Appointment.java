@@ -8,8 +8,8 @@ import lombok.*;
 
 @Entity
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Getter
 @Setter
 public class Appointment {

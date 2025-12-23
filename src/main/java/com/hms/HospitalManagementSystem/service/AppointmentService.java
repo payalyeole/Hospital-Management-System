@@ -5,6 +5,7 @@ import com.hms.HospitalManagementSystem.models.Appointment;
 import com.hms.HospitalManagementSystem.repository.AppointmentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,7 @@ public class AppointmentService {
 
     private static final Logger logger = LoggerFactory.getLogger(AppointmentService.class);
 
+    @Autowired
     private AppointmentRepository appointmentRepository;
 
     public Page<Appointment> getAllAppointments(int page, int size){

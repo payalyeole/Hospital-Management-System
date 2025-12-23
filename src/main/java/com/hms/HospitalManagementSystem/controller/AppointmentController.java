@@ -10,16 +10,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/appointments")
-public class AppointmentController {
+public class AppointmentController<appointment> {
 
     @Autowired
     private AppointmentService appointmentService;
 
     @GetMapping
-    public Page<Appointment> getAllAppointment(@RequestParam(defaultValue = "0")int page, @RequestParam(defaultValue = "2") int size){
+    public Page<Appointment> getAllAppointment(@RequestParam(defaultValue = "0")int page,
+                                               @RequestParam(defaultValue = "2") int size){
         System.out.println("Fetching from Appointment");
         return appointmentService.getAllAppointments(page, size);
     }
+
     @PostMapping
     public Appointment createAppointment(@RequestBody Appointment appointment){
         System.out.println("Creating appointment");
@@ -38,7 +40,7 @@ public class AppointmentController {
     }
 
     @PutMapping("/{id}")
-    public Appointment updateAppointment(@PathVariable Long id, Appointment appointment){
+    public Appointment updateAppointment(@PathVariable Long id,@RequestBody Appointment appointment){
         return appointmentService.updateAppointment(id, appointment);
     }
 }
