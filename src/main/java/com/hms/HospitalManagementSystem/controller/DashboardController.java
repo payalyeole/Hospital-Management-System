@@ -1,14 +1,13 @@
 package com.hms.HospitalManagementSystem.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class DashboardController {
 
-    @RequestMapping("dashboard")
+    @GetMapping("/")
     public String dashboard() {
-        System.out.println("This is Dashboard");
-        return "dashboard.jsp";
+        return "dashboard";
     }
 }

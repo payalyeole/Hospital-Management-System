@@ -13,7 +13,7 @@
 
 <ul>
     <li><a href="/doctors">Doctors</a></li>
-    <li><a href="/patients">Patients</a></li>
+    <li><a href="/patient.jsp">Patients</a></li>
     <li><a href="/appointments">Appointments</a></li>
 </ul>
 

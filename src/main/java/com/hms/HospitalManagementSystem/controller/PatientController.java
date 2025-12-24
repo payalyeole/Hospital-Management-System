@@ -4,6 +4,7 @@ import com.hms.HospitalManagementSystem.models.Patient;
 import com.hms.HospitalManagementSystem.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +15,11 @@ public class PatientController{
 
     @Autowired
     private PatientService patientService;
+
+//    @GetMapping("/patients")
+//    public String patientPage() {
+//        return "patient";
+//    }
 
     @GetMapping
     public Page<Patient> getAllPatients(@RequestParam(defaultValue = "0") int page,
