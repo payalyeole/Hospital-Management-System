@@ -28,13 +28,17 @@
                     <input type="text" id="name" class="form-control" placeholder="Name" required>
                 </div>
                 <div class="col-md-4">
-                    <input type="text" id="gender" class="form-control" placeholder="Gender" required>
+                    <select id="gender" class="form-control" required>
+                        <option value="">Select Gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
                 </div>
                 <div class="col-md-4">
-                    <input type="number" id="age" class="form-control" placeholder="Age" required>
+                    <input type="number" id="age" class="form-control" placeholder="Age" min="0" required>
                 </div>
             </div>
-            <button class="btn btn-primary mt-3">Add Patient</button>
+            <button type="submit" class="btn btn-primary mt-3">Add Patient</button>
         </form>
     </div>
 </div>
@@ -56,15 +60,14 @@
             <tbody id="patientTable"></tbody>
         </table>
         <!-- PAGINATION -->
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between align-items-center">
             <button id="prevBtn" class="btn btn-secondary">Previous</button>
-            <span id="pageInfo"></span>
+            <span id="pageInfo" class="fw-bold"></span>
             <button id="nextBtn" class="btn btn-secondary">Next</button>
         </div>
 
     </div>
 </div>
-
 
 <script>
 const API_URL = "/api/v1/patients";
@@ -109,6 +112,32 @@ function loadPatients() {
     });
 }
 
+/* ================= ADD PATIENT ================= */
+$("#patientForm").submit(function(e) {
+    e.preventDefault();
+
+    const patientData = {
+        name: $("#name").val(),
+        gender: $("#gender").val(),
+        age: $("#age").val()
+    };
+
+    $.ajax({
+        url: API_URL,
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(patientData),
+        success: function() {
+            $("#patientForm")[0].reset();
+            currentPage = 0; // new data → first page
+            loadPatients();
+        },
+        error: function(err) {
+            console.error("Error saving patient", err);
+        }
+    });
+});
+
 // DELETE
 function deletePatient(id) {
     if(confirm("Are you sure?")) {
@@ -126,7 +155,6 @@ function deletePatient(id) {
 $(document).ready(function() {
     loadPatients();
 });
-
 
 /* ================= PAGINATION ================= */
 $("#nextBtn").click(() => {

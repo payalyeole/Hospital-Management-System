@@ -22,15 +22,17 @@ public class PatientService {
     private PatientRepository patientRepository;
 
     public Page<Patient> getAllPatients(int page, int size){
-        try{
-            System.out.println("Into service layer");
-            Pageable pageable = PageRequest.of(page, size);
-            return patientRepository.findAll(pageable);
-        }catch (Exception e){
-            System.out.println("Error message: " +e.getMessage());
-            logger.error("An error occurred while fetching all patient: {}", e.getMessage());
-            return null;
-        }
+        Pageable pageable = PageRequest.of(page, size);
+        return patientRepository.findAll(pageable);
+//        try{
+//            System.out.println("Into service layer");
+//            Pageable pageable = PageRequest.of(page, size);
+//            return patientRepository.findAll(pageable);
+//        }catch (Exception e){
+//            System.out.println("Error message: " +e.getMessage());
+//            logger.error("An error occurred while fetching all patient: {}", e.getMessage());
+//            return null;
+//        }
     }
 
     public Patient getPatientById(Long id){
@@ -74,7 +76,7 @@ public class PatientService {
                 p.setAge(updatedPatient.getAge());
                 p.setGender(updatedPatient.getGender());
                 patientRepository.save(p);
-                return updatedPatient;
+                return p;
             }else {
                 logger.error("Patient with Id {} not found" , id);
                 return null;
