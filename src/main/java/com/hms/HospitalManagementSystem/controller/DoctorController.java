@@ -13,6 +13,11 @@ public class DoctorController {
     @Autowired
     private DoctorService doctorService;
 
+    @GetMapping("/names")
+    public List<String> getDoctorNames() {
+        return doctorService.getAllDoctorNames();
+    }
+
     @GetMapping
     public Page<Doctor> getAllDoctors(@RequestParam(defaultValue = "0") int page,
                                       @RequestParam(defaultValue = "2") int size){

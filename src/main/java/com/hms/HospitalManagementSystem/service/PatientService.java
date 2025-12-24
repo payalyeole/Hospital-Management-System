@@ -87,4 +87,9 @@ public class PatientService {
             return null;
         }
     }
+
+    public List<String> getAllPatientNames() {
+        return patientRepository.findAllPatientNames();
+    }
+
 }

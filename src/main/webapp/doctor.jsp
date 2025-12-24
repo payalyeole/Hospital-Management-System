@@ -46,6 +46,7 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Speciality</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody id="doctorTable"></tbody>
@@ -77,7 +78,7 @@ function loadDoctors() {
 
             let rows = "";
 
-            response.content.forEach(function(p) {
+            response.content.forEach(function(d) {
                 rows +=
                     "<tr>" +
                     "<td>" + d.id + "</td>" +

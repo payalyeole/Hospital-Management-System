@@ -84,4 +84,9 @@ public class DoctorService {
             return null;
         }
     }
+
+    public List<String> getAllDoctorNames() {
+        return doctorRepository.findAllDoctorNames();
+    }
+
 }

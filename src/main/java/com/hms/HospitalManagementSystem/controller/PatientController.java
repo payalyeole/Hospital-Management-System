@@ -16,10 +16,10 @@ public class PatientController{
     @Autowired
     private PatientService patientService;
 
-//    @GetMapping("/patients")
-//    public String patientPage() {
-//        return "patient";
-//    }
+    @GetMapping("/names")
+    public List<String> getPatientNames() {
+        return patientService.getAllPatientNames();
+    }
 
     @GetMapping
     public Page<Patient> getAllPatients(@RequestParam(defaultValue = "0") int page,

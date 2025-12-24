@@ -75,7 +75,7 @@ public class AppointmentService {
                 a.setDoctorId(updateAppointment.getDoctorId());
                 a.setPatientId(updateAppointment.getPatientId());
                 appointmentRepository.save(a);
-                return updateAppointment;
+                return a;
             }else {
                 logger.error("Appointment with Id {} not found", id);
                 return null;
