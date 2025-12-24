@@ -73,7 +73,7 @@ public class DoctorService {
                 d.setName(updateDoctor.getName());
                 d.setSpeciality(updateDoctor.getSpeciality());
                 doctorRepository.save(d);
-                return updateDoctor;
+                return d;
             }else {
                 logger.error("Doctor with Id {} not found", id);
                 return null;
