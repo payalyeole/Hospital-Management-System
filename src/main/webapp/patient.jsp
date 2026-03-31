@@ -10,6 +10,7 @@
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
 <!-- Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 <!-- Shared HMS Stylesheet -->
 <link rel="stylesheet" href="/css/medicore.css">
@@ -165,35 +166,81 @@
         </div>
     </div>
 
-    <!-- Stats -->
-    <div class="stat-row">
-        <div class="stat-card blue">
-            <p class="stat-label">Total Patients</p>
-            <div class="stat-val" id="statTotal">—</div>
-            <p class="stat-sub">all records</p>
-        </div>
-        <div class="stat-card green">
-            <p class="stat-label">Admitted</p>
-            <div class="stat-val" id="statMale">—</div>
-            <p class="stat-sub">currently in ward</p>
-        </div>
-        <div class="stat-card purple">
-            <p class="stat-label">Female</p>
-            <div class="stat-val" id="statFemale">—</div>
-            <p class="stat-sub">registered</p>
-        </div>
-        <div class="stat-card warn">
-            <p class="stat-label">Avg. Age</p>
-            <div class="stat-val" id="statAvgAge">—</div>
-            <p class="stat-sub">years</p>
-        </div>
-        <div class="stat-card red">
-            <p class="stat-label">New Today</p>
-            <div class="stat-val">4</div>
-            <p class="stat-sub">registered today</p>
-        </div>
-    </div>
+<!-- Stats -->
 
+    <div class="row g-3 mb-4">
+
+        <!-- Total Patients -->
+        <div class="col-md">
+            <div class="card bg-dark text-white shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <small class="text-secondary">Total Patients</small>
+                        <i class="bi bi-people text-primary"></i>
+                    </div>
+                    <h4 class="fw-bold mt-2" id="statTotal">—</h4>
+                    <small class="text-secondary">all records</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admitted -->
+        <div class="col-md">
+            <div class="card bg-dark text-white shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <small class="text-secondary">Admitted</small>
+                        <i class="bi bi-hospital text-success"></i>
+                    </div>
+                    <h4 class="fw-bold mt-2" id="statMale">—</h4>
+                    <small class="text-secondary">currently in ward</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Female -->
+        <div class="col-md">
+            <div class="card bg-dark text-white shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <small class="text-secondary">Female</small>
+                        <i class="bi bi-gender-female text-info"></i>
+                    </div>
+                    <h4 class="fw-bold mt-2" id="statFemale">—</h4>
+                    <small class="text-secondary">registered</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Avg Age -->
+        <div class="col-md">
+            <div class="card bg-dark text-white shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <small class="text-secondary">Avg. Age</small>
+                        <i class="bi bi-bar-chart text-warning"></i>
+                    </div>
+                    <h4 class="fw-bold mt-2" id="statAvgAge">—</h4>
+                    <small class="text-secondary">years</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Today -->
+        <div class="col-md">
+            <div class="card bg-dark text-white shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <small class="text-secondary">New Today</small>
+                        <i class="bi bi-person-plus text-danger"></i>
+                    </div>
+                    <h4 class="fw-bold mt-2">4</h4>
+                    <small class="text-secondary">registered today</small>
+                </div>
+            </div>
+        </div>
+
+    </div>
     <!-- Two-col -->
     <div class="two-col">
 

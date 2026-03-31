@@ -10,6 +10,7 @@
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
 <!-- Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 <!-- Shared HMS Stylesheet -->
 <link rel="stylesheet" href="/css/medicore.css">
@@ -183,29 +184,65 @@ input[type="date"].field-input {
     </div>
 
     <!-- Stats -->
-    <div class="stat-row">
-        <div class="stat-card blue">
-            <p class="stat-label">Total Booked</p>
-            <div class="stat-val" id="statTotal">—</div>
-            <p class="stat-sub">all time</p>
-        </div>
-        <div class="stat-card green">
-            <p class="stat-label">Today</p>
-            <div class="stat-val" id="statToday">—</div>
-            <p class="stat-sub">scheduled today</p>
-        </div>
-        <div class="stat-card warn">
-            <p class="stat-label">This Page</p>
-            <div class="stat-val" id="statPage">—</div>
-            <p class="stat-sub">current view</p>
-        </div>
-        <div class="stat-card red">
-            <p class="stat-label">Doctors Listed</p>
-            <div class="stat-val" id="statDoctors">—</div>
-            <p class="stat-sub">available</p>
+<div class="row g-3 mb-4">
+
+    <!-- Total Booked -->
+    <div class="col-md">
+        <div class="card bg-dark text-white shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <small class="text-secondary">Total Booked</small>
+                    <i class="bi bi-calendar-check text-primary"></i>
+                </div>
+                <h4 class="fw-bold mt-2" id="statTotal">—</h4>
+                <small class="text-secondary">all time</small>
+            </div>
         </div>
     </div>
 
+    <!-- Today -->
+    <div class="col-md">
+        <div class="card bg-dark text-white shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <small class="text-secondary">Today</small>
+                    <i class="bi bi-calendar-day text-success"></i>
+                </div>
+                <h4 class="fw-bold mt-2" id="statToday">—</h4>
+                <small class="text-secondary">scheduled today</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- This Page -->
+    <div class="col-md">
+        <div class="card bg-dark text-white shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <small class="text-secondary">This Page</small>
+                    <i class="bi bi-file-earmark-text text-warning"></i>
+                </div>
+                <h4 class="fw-bold mt-2" id="statPage">—</h4>
+                <small class="text-secondary">current view</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Doctors Listed -->
+    <div class="col-md">
+        <div class="card bg-dark text-white shadow-sm border-0 h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <small class="text-secondary">Doctors Listed</small>
+                    <i class="bi bi-person-badge text-danger"></i>
+                </div>
+                <h4 class="fw-bold mt-2" id="statDoctors">—</h4>
+                <small class="text-secondary">available</small>
+            </div>
+        </div>
+    </div>
+
+</div>
     <!-- Two-col -->
     <div class="two-col">
 

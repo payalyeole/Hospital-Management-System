@@ -13,7 +13,6 @@ public class DashboardController {
         if (session.getAttribute("USER") == null) {
             return "redirect:/login";
         }
-
         return "dashboard";
     }
 }

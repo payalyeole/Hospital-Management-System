@@ -717,7 +717,7 @@
     </a>
 
     <!-- Billing -->
-    <a href="/billing.jsp" class="mod-card">
+    <a href="/bill.jsp" class="mod-card">
         <div class="mod-img-placeholder fill-indigo">
             <i class="bi bi-receipt-cutoff"></i>
         </div>
