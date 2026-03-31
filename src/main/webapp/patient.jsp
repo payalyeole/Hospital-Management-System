@@ -129,10 +129,7 @@
     border-color: var(--accent);
 }
 
-.chip:hover:not(.active) {
-    border-color: var(--accent);
-    color: var(--accent);
-}
+
 </style>
 </head>
 
@@ -140,15 +137,15 @@
 
 <!-- ═══ TOPBAR ═══ -->
 <nav class="topbar">
-    <a href="/dashboard.jsp" class="topbar-brand">
-        <span class="brand-pill">HMS</span>
-        MediCore
+    <a href="#" class="navbar-brand">
+        <span class="brand-dot"></span>
+        MediCore <sup style="font-size:.55rem;letter-spacing:.12em;color:var(--muted);font-family:'DM Sans',sans-serif;">HMS</sup>
     </a>
     <div class="topbar-right">
         <div class="breadcrumb-trail">
             <a href="/dashboard.jsp"><i class="bi bi-house"></i></a>
             <i class="bi bi-chevron-right" style="font-size:.6rem;"></i>
-            <span>Patients</span>
+            <span>Doctors</span>
         </div>
     </div>
 </nav>

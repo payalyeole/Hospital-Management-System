@@ -797,7 +797,7 @@
             <i class="bi bi-person-plus-fill" style="color:var(--accent);"></i>
             Register New Patient
         </a>
-        <a href="/appointment/book" class="quick-btn">
+        <a href="/appointments.jsp" class="quick-btn">
             <i class="bi bi-calendar-plus-fill" style="color:var(--accent4);"></i>
             Book Appointment
         </a>

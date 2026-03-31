@@ -154,9 +154,9 @@ input[type="date"].field-input {
 
 <!-- ═══ TOPBAR ═══ -->
 <nav class="topbar">
-    <a href="/dashboard.jsp" class="topbar-brand">
-        <span class="brand-pill">HMS</span>
-        MediCore
+    <a href="#" class="navbar-brand">
+        <span class="brand-dot"></span>
+        MediCore <sup style="font-size:.55rem;letter-spacing:.12em;color:var(--muted);font-family:'DM Sans',sans-serif;">HMS</sup>
     </a>
     <div class="topbar-right">
         <div class="breadcrumb-trail">

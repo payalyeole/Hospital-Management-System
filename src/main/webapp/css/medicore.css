@@ -17,35 +17,62 @@
    1. DESIGN TOKENS
    ════════════════════════════════════════ */
 :root {
-    --bg:        #f0f4f8;
-    --surface:   #ffffff;
-    --card:      #ffffff;
-    --border:    #e2e8f0;
-    --text:      #0f172a;
-    --muted:     #94a3b8;
+            --bg:        #0a0f1e;
+            --surface:   #111827;
+            --card:      #151d2e;
+            --border:    rgba(255,255,255,0.07);
+            --accent:    #00d4ff;
+            --accent2:   #7c3aed;
+            --accent3:   #10b981;
+            --accent4:   #f59e0b;
+            --accent5:   #ef4444;
+            --text:      #f1f5f9;
+            --muted:     #64748b;
+            --glow:      rgba(0,212,255,0.18);
+        }
 
-    --accent:    #0057ff;
-    --accent-l:  #dbeafe;
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    --danger:    #ef4444;
-    --danger-l:  #fee2e2;
+        html { scroll-behavior: smooth; }
 
-    --success:   #10b981;
-    --success-l: #d1fae5;
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-    --warn:      #f59e0b;
-    --warn-l:    #fef3c7;
+        /* ── ANIMATED GRID BACKGROUND ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
 
-    --purple:    #7c3aed;
-    --purple-l:  #ede9fe;
+        body::after {
+            content: '';
+            position: fixed;
+            top: -40%;
+            left: -20%;
+            width: 70%;
+            height: 70%;
+            background: radial-gradient(ellipse, rgba(0,212,255,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: driftBlob 18s ease-in-out infinite alternate;
+        }
 
-    --shadow:    0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.06);
-    --shadow-lg: 0 8px 40px rgba(0,0,0,.12);
-
-    --radius-sm: 8px;
-    --radius:    14px;
-    --radius-lg: 18px;
-}
+        @keyframes driftBlob {
+            0%   { transform: translate(0,0) scale(1); }
+            100% { transform: translate(15%,10%) scale(1.2); }
+        }
 
 /* ════════════════════════════════════════
    2. RESET & BASE
@@ -58,66 +85,42 @@
 
 html { scroll-behavior: smooth; }
 
-body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Sora', sans-serif;
-    min-height: 100vh;
-}
-
-/* Subtle dot-grid background */
-body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: radial-gradient(circle, #cbd5e1 1px, transparent 1px);
-    background-size: 28px 28px;
-    opacity: .5;
-    pointer-events: none;
-    z-index: 0;
-}
-
 /* ════════════════════════════════════════
    3. TOPBAR / NAVBAR
    ════════════════════════════════════════ */
 .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: rgba(255,255,255,.88);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 2rem;
-    height: 60px;
+ position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            height: 66px;
+            background: rgba(10,15,30,0.82);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
 }
 
-.topbar-brand {
+.navbar-brand {
     display: flex;
     align-items: center;
-    gap: .5rem;
-    text-decoration: none;
-    font-family: 'Instrument Serif', serif;
-    font-size: 1.25rem;
+    gap: .55rem;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
     color: var(--text);
+    text-decoration: none;
+    letter-spacing: -.01em;
 }
 
-.topbar-brand:hover { text-decoration: none; color: var(--text); }
-
-.brand-pill {
+.brand-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
     background: var(--accent);
-    color: #fff;
-    font-size: .6rem;
-    font-family: 'Sora', sans-serif;
-    font-weight: 600;
-    letter-spacing: .1em;
-    padding: .18rem .5rem;
-    border-radius: 20px;
+    box-shadow: 0 0 10px var(--accent);
+    animation: pulse 2s ease-in-out infinite;
 }
-
 .topbar-right {
     display: flex;
     align-items: center;
@@ -337,7 +340,7 @@ body::before {
 .field-input:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px rgba(0,87,255,.1);
-    background: #fff;
+    background: #000;
 }
 
 .field-input::placeholder { color: var(--muted); }
@@ -543,7 +546,6 @@ select.field-input {
 }
 
 .data-table tr:last-child td { border-bottom: none; }
-.data-table tr:hover td      { background: #f8faff; }
 
 /* ════════════════════════════════════════
    15. PAGINATION
