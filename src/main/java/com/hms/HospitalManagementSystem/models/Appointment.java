@@ -20,7 +20,6 @@ public class Appointment {
     private long patientId;
     private long doctorId;
     private String date;
-
     public Appointment(){
 
     }
