@@ -167,9 +167,7 @@
     </div>
 
 <!-- Stats -->
-
     <div class="row g-3 mb-4">
-
         <!-- Total Patients -->
         <div class="col-md">
             <div class="card bg-dark text-white shadow-sm border-0 h-100">
@@ -183,7 +181,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Admitted -->
         <div class="col-md">
             <div class="card bg-dark text-white shadow-sm border-0 h-100">
@@ -197,7 +194,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Female -->
         <div class="col-md">
             <div class="card bg-dark text-white shadow-sm border-0 h-100">
@@ -685,7 +681,6 @@ document.getElementById('nextBtn').onclick = function() {
 document.getElementById('confirmModal').onclick = function(e) {
     if (e.target === this) { this.classList.remove('open'); deleteTarget = null; }
 };
-
 /* ─── INIT ─── */
 $(document).ready(function() { loadPatients(); });
 </script>

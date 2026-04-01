@@ -14,7 +14,6 @@
 <!-- Shared HMS Stylesheet -->
 <link rel="stylesheet" href="/css/medicore.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
 <style>
 /* ── DOCTOR-SPECIFIC STYLES ONLY ── */
 
@@ -171,7 +170,6 @@
             </div>
         </div>
     </div>
-
 </div>
     <!-- Two-col -->
     <div class="two-col">

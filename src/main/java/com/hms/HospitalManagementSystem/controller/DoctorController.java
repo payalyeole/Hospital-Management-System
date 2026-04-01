@@ -40,7 +40,6 @@ public class DoctorController {
     public void deleteDoctor(@PathVariable Long id){
         doctorService.deleteDoctor(id);
     }
-
     @PutMapping("/{id}")
     public Doctor updateDoctor(@PathVariable Long id, @RequestBody Doctor doctor){
         System.out.println("Update Doctor with ID: "+id);
