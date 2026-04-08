@@ -160,6 +160,10 @@
             margin: 0 auto;
         }
 
+        .hero img{
+            width: 550px;
+        }
+
         .hero-eyebrow {
             font-size: .75rem;
             letter-spacing: .18em;
@@ -564,6 +568,50 @@
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg); }
         ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+
+        .hero {
+            padding: 60px 8%;
+            color: #fff;
+        }
+
+        .hero-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 70px;
+            flex-wrap: wrap;
+        }
+
+        /* Left Side */
+        .hero-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        /* Right Image */
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 32px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -597,9 +645,29 @@
 
 <!-- ═══ HERO ═══ -->
 <section class="hero">
-    <p class="hero-eyebrow">Hospital Management System</p>
-    <h1>Dashboard Overview<br><em>Hospital Management System</em></h1>
-    <p>Real-time insights across all departments. Manage patients, staff, and operations from one place.</p>
+    <div class="hero-container">
+
+        <!-- Left Content -->
+        <div class="hero-text">
+            <p class="hero-eyebrow">Hospital Management System</p>
+
+            <h1>
+                Dashboard Overview <br>
+                <em>Smart Healthcare Control</em>
+            </h1>
+
+            <p>
+                Real-time insights across all departments. Manage patients,
+                staff, and operations from one powerful dashboard.
+            </p>
+        </div>
+
+        <!-- Right Image -->
+        <div class="hero-image">
+            <img src="img/hms1.png" alt="HMS Dashboard">
+        </div>
+
+    </div>
 </section>
 
 
@@ -801,19 +869,19 @@
             <i class="bi bi-calendar-plus-fill" style="color:var(--accent4);"></i>
             Book Appointment
         </a>
-        <a href="/lab/request" class="quick-btn">
+        <a href="/lab.jsp" class="quick-btn">
             <i class="bi bi-clipboard2-plus-fill" style="color:var(--accent5);"></i>
             Request Lab Test
         </a>
-        <a href="/pharmacy/issue" class="quick-btn">
+        <a href="/pharmacy.jsp" class="quick-btn">
             <i class="bi bi-capsule-pill" style="color:#a78bfa;"></i>
             Issue Medicine
         </a>
-        <a href="/billing/new" class="quick-btn">
+        <a href="/billing.jsp" class="quick-btn">
             <i class="bi bi-receipt" style="color:var(--accent3);"></i>
             Generate Invoice
         </a>
-        <a href="/report/export" class="quick-btn">
+        <a href="/reports.jsp" class="quick-btn">
             <i class="bi bi-download" style="color:var(--muted);"></i>
             Export Reports
         </a>
