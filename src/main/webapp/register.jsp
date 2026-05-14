@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Hospital Management System</title>
+    <title>Register - Hospital Management System</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -16,13 +16,13 @@
             font-family: 'Inter', sans-serif;
         }
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .login-container {
+        .register-container {
             background: rgba(255, 255, 255, 0.95);
             padding: 40px;
             border-radius: 20px;
@@ -34,7 +34,7 @@
             transform: translateY(0);
             transition: all 0.3s ease;
         }
-        .login-container:hover {
+        .register-container:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
@@ -75,17 +75,17 @@
             background: #f8fafc;
         }
         .form-control:focus {
-            border-color: #3498db;
+            border-color: #9b59b6;
             background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
+            box-shadow: 0 0 0 4px rgba(155, 89, 182, 0.1);
         }
         .form-control:focus + i {
-            color: #3498db;
+            color: #9b59b6;
         }
-        .btn-login {
+        .btn-register {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, #3498db, #2980b9);
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
             color: white;
             border: none;
             border-radius: 10px;
@@ -93,12 +93,12 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            box-shadow: 0 5px 15px rgba(155, 89, 182, 0.3);
         }
-        .btn-login:hover {
+        .btn-register:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
-            background: linear-gradient(135deg, #2980b9, #2471a3);
+            box-shadow: 0 8px 20px rgba(155, 89, 182, 0.4);
+            background: linear-gradient(135deg, #8e44ad, #732d91);
         }
         .alert {
             padding: 12px;
@@ -112,11 +112,6 @@
             color: #d63031;
             border: 1px solid #fdcb6e;
         }
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
         .footer {
             text-align: center;
             margin-top: 25px;
@@ -124,68 +119,53 @@
             font-size: 14px;
         }
         .footer a {
-            color: #3498db;
+            color: #9b59b6;
             text-decoration: none;
             font-weight: 600;
             transition: color 0.3s ease;
         }
         .footer a:hover {
-            color: #2980b9;
-        }
-        /* Heartbeat animation for icon */
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            14% { transform: scale(1.3); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.3); }
-            70% { transform: scale(1); }
+            color: #8e44ad;
         }
         .hospital-icon {
-            color: #e74c3c;
+            color: #9b59b6;
             font-size: 40px;
             margin-bottom: 15px;
             display: inline-block;
-            animation: heartbeat 2s infinite;
         }
     </style>
 </head>
 <body>
 
-    <div class="login-container">
+    <div class="register-container">
         <div class="header">
-            <i class="fas fa-heartbeat hospital-icon"></i>
-            <h2>Welcome Back</h2>
-            <p>Login to Hospital Management System</p>
+            <i class="fas fa-hospital-user hospital-icon"></i>
+            <h2>Join Us</h2>
+            <p>Create a new account</p>
         </div>
 
         <c:if test="${param.error != null}">
             <div class="alert alert-error">
-                <i class="fas fa-exclamation-circle"></i> Invalid username or password!
-            </div>
-        </c:if>
-        
-        <c:if test="${param.registered != null}">
-            <div class="alert alert-success">
-                <i class="fas fa-check-circle"></i> Registration successful! Please login.
+                <i class="fas fa-exclamation-circle"></i> Username is already taken!
             </div>
         </c:if>
 
-        <form method="post" action="/login">
+        <form method="post" action="/register">
             <div class="form-group">
                 <i class="fas fa-user"></i>
-                <input type="text" name="username" class="form-control" placeholder="Username" required>
+                <input type="text" name="username" class="form-control" placeholder="Choose a Username" required>
             </div>
 
             <div class="form-group">
                 <i class="fas fa-lock"></i>
-                <input type="password" name="password" class="form-control" placeholder="Password" required>
+                <input type="password" name="password" class="form-control" placeholder="Create a Password" required>
             </div>
 
-            <button type="submit" class="btn-login">Login Securely</button>
+            <button type="submit" class="btn-register">Register Now</button>
         </form>
 
         <div class="footer">
-            Don't have an account? <a href="/register">Create one</a>
+            Already have an account? <a href="/login">Login here</a>
         </div>
     </div>
 
