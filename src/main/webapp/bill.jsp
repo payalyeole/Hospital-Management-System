@@ -46,7 +46,9 @@
             <div class="panel-title">Create Bill</div>
 
             <form id="billForm">
-                <input type="text" id="patientName" class="field-input" placeholder="Patient Name" required>
+                <select id="patientId" class="field-input" required>
+                    <option value="" disabled selected>Select patient</option>
+                </select>
                 <input type="number" id="amount" class="field-input" placeholder="Amount" required>
                 <input type="text" id="status" class="field-input" placeholder="Status (PAID / PENDING)" required>
 
@@ -86,55 +88,122 @@
 
 <script>
 
-const API = "/api/v1/bills";
+var API = "/api/v1/bills";
+var PATIENT_API = "/api/v1/patients";
 
-let page = 0;
-let totalPages = 1;
-let cache = [];
+var page = 0;
+var totalPages = 1;
+var cache = [];
+var patientMap = {};
+
+function escapeHtml(value) {
+    return String(value == null ? "" : value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function formatAmount(amount) {
+    var value = parseFloat(amount);
+    if (isNaN(value)) value = 0;
+    return "Rs. " + value.toLocaleString("en-IN", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
+
+/* LOAD PATIENTS */
+function loadPatients() {
+    return $.ajax({
+        url: PATIENT_API + "?page=0&size=100",
+        type: "GET",
+        success: function(res) {
+            var patients = (res && res.content) ? res.content : [];
+            patientMap = {};
+            var options = '<option value="" disabled selected>Select patient</option>';
+
+            for (var i = 0; i < patients.length; i++) {
+                var p = patients[i];
+                patientMap[p.id] = p.name;
+                options += '<option value="' + escapeHtml(p.id) + '">' + escapeHtml(p.name) + '</option>';
+            }
+
+            $("#patientId").html(options);
+            render($("#search").val().toLowerCase());
+        },
+        error: function() {
+            $("#patientId").html('<option value="" disabled selected>Failed to load patients</option>');
+        }
+    });
+}
 
 /* LOAD DATA */
-function load(q=""){
-    $.get(API+"?page="+page+"&size=5", function(res){
+function load(q) {
+    q = q || "";
+    $.ajax({
+        url: API + "?page=" + page + "&size=5",
+        type: "GET",
+        success: function(res) {
+            cache = (res && res.content) ? res.content : [];
+            totalPages = (res && res.totalPages) ? res.totalPages : 1;
 
-        cache = res.content || [];
-        totalPages = res.totalPages || 1;
+            $("#total").text((res && res.totalElements != null) ? res.totalElements : cache.length);
+            $("#pageInfo").text("Page " + (page + 1) + " / " + totalPages);
 
-        $("#total").text(res.totalElements || cache.length);
-        $("#pageInfo").text("Page "+(page+1)+" / "+totalPages);
-
-        render(q);
+            render(q);
+        },
+        error: function() {
+            $("#data").html('<tr><td colspan="5">Failed to load bills</td></tr>');
+        }
     });
 }
 
 /* RENDER */
-function render(q){
-    let html = "";
+function render(q) {
+    q = q || "";
+    var html = "";
 
-    cache.forEach(b=>{
-        if(q && !b.patientName.toLowerCase().includes(q)) return;
+    for (var i = 0; i < cache.length; i++) {
+        var b = cache[i];
+        var patientName = patientMap[b.patientId] || ("Patient #" + (b.patientId || "-"));
+        var searchable = (patientName + " " + (b.status || "") + " " + b.id).toLowerCase();
+        if (q && searchable.indexOf(q) === -1) continue;
 
-        html += `
-        <tr>
-            <td>${b.id}</td>
-            <td>${b.patientName}</td>
-            <td>₹ ${b.amount}</td>
-            <td>${b.status}</td>
-            <td>
-                <button class="btn-del" onclick="del(${b.id})">X</button>
-            </td>
-        </tr>`;
-    });
+        html +=
+            '<tr>' +
+                '<td>' + escapeHtml(b.id) + '</td>' +
+                '<td>' + escapeHtml(patientName) + '</td>' +
+                '<td>' + formatAmount(b.amount) + '</td>' +
+                '<td>' + escapeHtml(b.status) + '</td>' +
+                '<td>' +
+                    '<button type="button" class="btn-del" data-id="' + escapeHtml(b.id) + '">X</button>' +
+                '</td>' +
+            '</tr>';
+    }
+
+    if (!html) {
+        html = '<tr><td colspan="5">No bills found</td></tr>';
+    }
+
     $("#data").html(html);
 }
 
 /* ADD */
-$("#billForm").submit(function(e){
+$("#billForm").submit(function(e) {
     e.preventDefault();
 
-    let obj = {
-        patientName: $("#patientName").val(),
-        amount: $("#amount").val(),
-        status: $("#status").val()
+    var selectedPatientId = Number($("#patientId").val());
+    if (!selectedPatientId) {
+        alert("Please select a patient.");
+        return;
+    }
+
+    var obj = {
+        patientId: selectedPatientId,
+        amount: Number($("#amount").val()),
+        status: $("#status").val().trim()
     };
 
     $.ajax({
@@ -142,36 +211,66 @@ $("#billForm").submit(function(e){
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify(obj),
-        success: function(){
+        success: function() {
             $("#billForm")[0].reset();
             page = 0;
-            load();
+            loadPatients().always(function() {
+                load();
+            });
+        },
+        error: function() {
+            alert("Unable to save the bill. Please check the server logs.");
         }
     });
 });
 
 /* DELETE */
-function del(id){
-    if(confirm("Delete bill?")){
+function del(id) {
+    if (confirm("Delete bill?")) {
         $.ajax({
-            url: API+"/"+id,
+            url: API + "/" + id,
             type: "DELETE",
-            success: load
+            success: function() {
+                load($("#search").val().toLowerCase());
+            },
+            error: function() {
+                alert("Unable to delete the bill. Please check the server logs.");
+            }
         });
     }
 }
 
 /* SEARCH */
-$("#search").on("input", function(){
+$("#search").on("input", function() {
     render(this.value.toLowerCase());
 });
 
+/* DELETE BUTTONS */
+$("#data").on("click", ".btn-del", function() {
+    del($(this).data("id"));
+});
+
 /* PAGINATION */
-$("#prev").click(()=>{ if(page>0){page--;load();}});
-$("#next").click(()=>{ if(page<totalPages-1){page++;load();}});
+$("#prev").click(function() {
+    if (page > 0) {
+        page--;
+        load($("#search").val().toLowerCase());
+    }
+});
+
+$("#next").click(function() {
+    if (page < totalPages - 1) {
+        page++;
+        load($("#search").val().toLowerCase());
+    }
+});
 
 /* INIT */
-$(function(){ load(); });
+$(function() {
+    loadPatients().always(function() {
+        load();
+    });
+});
 </script>
 </body>
 </html>

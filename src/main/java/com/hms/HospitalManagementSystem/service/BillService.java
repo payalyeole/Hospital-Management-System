@@ -47,8 +47,7 @@ public class BillService {
 
     public Bill createBill(Bill bill){
         try{
-            billRepository.save(bill);
-            return bill;
+            return billRepository.save(bill);
         }catch (Exception e){
             System.out.println("Error message: " +e.getMessage());
             logger.error("An error occurred while creating creating {}", e.getMessage());
@@ -75,8 +74,7 @@ public class BillService {
                 b.setAmount(updateBill.getAmount());
                 b.setStatus(updateBill.getStatus());
                 b.setPatientId(updateBill.getPatientId());
-                billRepository.save(b);
-                return updateBill;
+                return billRepository.save(b);
             }else {
                 logger.error("Bill with Id {} not found", id);
                 return null;
