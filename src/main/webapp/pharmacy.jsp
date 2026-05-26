@@ -12,266 +12,34 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 <link rel="stylesheet" href="/css/medicore.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-<style>
-/* ── PHARMACY PAGE STYLES (dark theme) ── */
-
-/* Medicine cards grid */
-.medicine-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    gap: 1rem;
-    padding: 1.2rem;
-}
-
-.medicine-card {
-    background: rgba(255,255,255,.03);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.15rem;
-    display: flex;
-    flex-direction: column;
-    gap: .65rem;
-    transition: transform .2s, box-shadow .2s, border-color .2s;
-    animation: fadeUp .35s both;
-    position: relative;
-    overflow: hidden;
-}
-
-.medicine-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    border-radius: 2px 2px 0 0;
-}
-
-.medicine-card.stock-ok::before       { background: #10b981; }
-.medicine-card.stock-low::before      { background: #f59e0b; }
-.medicine-card.stock-critical::before { background: #ef4444; }
-
-.medicine-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(0,212,255,.3);
-    box-shadow: 0 8px 30px rgba(0,0,0,.4);
-}
-
-.med-icon {
-    width: 38px; height: 38px;
-    border-radius: 9px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1rem;
-    flex-shrink: 0;
-}
-
-.med-name {
-    font-size: .9rem;
-    font-weight: 600;
-    color: var(--text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.med-manufacturer {
-    font-size: .7rem;
-    color: var(--muted);
-}
-
-.med-price {
-    font-family: 'Instrument Serif', serif;
-    font-size: 1.1rem;
-    color: var(--text);
-}
-
-.med-price span {
-    font-size: .68rem;
-    color: var(--muted);
-    font-family: 'Sora', sans-serif;
-}
-
-/* Stock bar */
-.stock-bar-wrap {
-    height: 3px;
-    background: rgba(255,255,255,.08);
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-.stock-bar {
-    height: 100%;
-    border-radius: 3px;
-    transition: width .4s;
-}
-
-.stock-bar.ok       { background: #10b981; }
-.stock-bar.low      { background: #f59e0b; }
-.stock-bar.critical { background: #ef4444; }
-
-.stock-label { font-size: .7rem; font-weight: 600; }
-.stock-label.ok       { color: #10b981; }
-.stock-label.low      { color: #f59e0b; }
-.stock-label.critical { color: #ef4444; }
-
-.med-expiry {
-    font-size: .68rem;
-    color: var(--muted);
-    display: flex; align-items: center; gap: .3rem;
-}
-
-.med-expiry.expired { color: #ef4444; font-weight: 600; }
-
-.med-actions {
-    display: flex; gap: .45rem; justify-content: flex-end;
-}
-
-/* Category tag */
-.cat-tag {
-    display: inline-flex; align-items: center;
-    font-size: .68rem; font-weight: 600;
-    padding: .15rem .5rem; border-radius: 20px;
-    letter-spacing: .03em;
-}
-
-.cat-antibiotic  { background: rgba(239,68,68,.15);   color: #fca5a5; }
-.cat-painkiller  { background: rgba(245,158,11,.15);  color: #fcd34d; }
-.cat-vitamin     { background: rgba(16,185,129,.15);  color: #6ee7b7; }
-.cat-antiviral   { background: rgba(124,58,237,.15);  color: #c4b5fd; }
-.cat-antifungal  { background: rgba(236,72,153,.15);  color: #f9a8d4; }
-.cat-antacid     { background: rgba(0,212,255,.12);   color: #67e8f9; }
-.cat-default     { background: rgba(0,212,255,.1);    color: var(--accent); }
-
-/* med icon bg */
-.icon-antibiotic  { background: rgba(239,68,68,.15);  color: #fca5a5; }
-.icon-painkiller  { background: rgba(245,158,11,.15); color: #fcd34d; }
-.icon-vitamin     { background: rgba(16,185,129,.15); color: #6ee7b7; }
-.icon-antiviral   { background: rgba(124,58,237,.15); color: #c4b5fd; }
-.icon-antifungal  { background: rgba(236,72,153,.15); color: #f9a8d4; }
-.icon-antacid     { background: rgba(0,212,255,.12);  color: #67e8f9; }
-.icon-default     { background: rgba(0,212,255,.1);   color: var(--accent); }
-
-/* Filter chips */
-.filter-chips { display: flex; gap: .4rem; flex-wrap: wrap; }
-
-.chip {
-    padding: .28rem .72rem;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: transparent;
-    font-size: .7rem; font-weight: 500;
-    color: var(--muted);
-    cursor: pointer;
-    font-family: 'Sora', sans-serif;
-    transition: all .2s;
-}
-
-.chip.active { background: var(--accent); color: #000; border-color: var(--accent); }
-.chip:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
-
-/* Action buttons on cards */
-.btn-stock {
-    padding: .32rem .7rem;
-    background: rgba(16,185,129,.12);
-    color: #6ee7b7;
-    border: 1px solid rgba(16,185,129,.3);
-    border-radius: 7px;
-    font-size: .7rem; font-weight: 600;
-    font-family: 'Sora', sans-serif;
-    cursor: pointer;
-    display: inline-flex; align-items: center; gap: .3rem;
-    transition: background .2s;
-}
-
-.btn-stock:hover { background: rgba(16,185,129,.25); }
-
-.btn-del {
-    padding: .32rem .7rem;
-    background: rgba(239,68,68,.12);
-    color: #fca5a5;
-    border: 1px solid rgba(239,68,68,.3);
-    border-radius: 7px;
-    font-size: .7rem; font-weight: 600;
-    font-family: 'Sora', sans-serif;
-    cursor: pointer;
-    display: inline-flex; align-items: center; gap: .3rem;
-    transition: background .2s;
-}
-
-.btn-del:hover { background: rgba(239,68,68,.25); color: #fff; }
-
-/* Stock edit modal */
-.modal-box.wide { width: 400px; text-align: left; }
-.modal-box.wide .modal-icon { background: rgba(0,212,255,.12); color: var(--accent); margin-bottom: .8rem; }
-
-.stock-edit-wrap { display: flex; gap: .5rem; align-items: center; margin-bottom: 1rem; }
-
-.stock-edit-input {
-    flex: 1;
-    padding: .6rem .9rem;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-family: 'Sora', sans-serif;
-    font-size: .85rem;
-    color: var(--text);
-    background: rgba(255,255,255,.04);
-    outline: none;
-    transition: border-color .2s;
-}
-
-.stock-edit-input:focus { border-color: var(--accent); }
-
-.btn-save-stock {
-    padding: .6rem 1rem;
-    background: var(--accent);
-    color: #000;
-    border: none;
-    border-radius: 8px;
-    font-family: 'Sora', sans-serif;
-    font-size: .82rem; font-weight: 700;
-    cursor: pointer;
-    transition: opacity .2s;
-}
-
-.btn-save-stock:hover { opacity: .85; }
-
-/* Panel override for dark theme compatibility */
-.panel-head { border-bottom: 1px solid var(--border); }
-.table-head-bar { border-bottom: 1px solid var(--border); }
-
-/* field overrides for dark */
-.field-input {
-    background: rgba(255,255,255,.04);
-    border: 1px solid var(--border);
-    color: var(--text);
-}
-
-.field-input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(0,212,255,.1);
-    background: rgba(255,255,255,.06);
-}
-
-.field-input::placeholder { color: var(--muted); }
-
-select.field-input option { background: #151d2e; color: var(--text); }
-</style>
 </head>
 <body>
+<!-- NAVBAR -->
+    <nav class="top-nav navbar py-2 px-3 px-lg-4">
+        <a href="#" class="brand">
+            <span class="brand-icon"><i class="bi bi-heart-pulse-fill"></i></span>
+            MediCore <sup style="font-size:.55rem;color:var(--muted);margin-left:4px;">HMS</sup>
+        </a>
 
-<!-- ═══ TOPBAR ═══ -->
-<nav class="topbar">
-    <a href="/dashboard.jsp" class="navbar-brand">
-        <span class="brand-dot"></span>
-        MediCore <sup style="font-size:.55rem;letter-spacing:.12em;color:var(--muted);font-family:'Sora',sans-serif;">HMS</sup>
-    </a>
-    <div class="topbar-right">
-        <div class="breadcrumb-trail">
-            <a href="/dashboard.jsp"><i class="bi bi-house"></i></a>
-            <i class="bi bi-chevron-right" style="font-size:.6rem;"></i>
-            <span>Pharmacy</span>
+        <div class="d-flex align-items-center gap-3">
+            <button
+                  class="theme-toggle"
+                  id="themeToggle"
+                  aria-label="Toggle light / dark theme"
+                  title="Toggle theme">
+                  <i class="bi bi-moon-stars-fill icon-moon" aria-hidden="true"></i>
+                  <i class="bi bi-sun-fill icon-sun" aria-hidden="true"></i>
+            </button>
+            <div class="topbar-right">
+                <div class="breadcrumb-trail">
+                    <a href="/dashboard.jsp"><i class="bi bi-house"></i></a>
+                    <i class="bi bi-chevron-right" style="font-size:.6rem;"></i>
+                    <span>Pharmacy</span>
+                </div>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+
 
 <!-- ═══ PAGE ═══ -->
 <div class="page-wrap">
@@ -908,3 +676,52 @@ $(document).ready(function() { loadMedicines(); });
 
 </body>
 </html>
+<script>
+(function () {
+  "use strict";
+
+  var STORAGE_KEY = "medicore-theme";
+  var html        = document.documentElement;
+
+  function getPreferred() {
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === "light" || saved === "dark") return saved;
+    return window.matchMedia("(prefers-color-scheme: light)").matches
+      ? "light"
+      : "dark";
+  }
+
+  function applyTheme(theme) {
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem(STORAGE_KEY, theme);
+  }
+
+  applyTheme(getPreferred());
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    function tick() {
+      var el = document.getElementById("liveClock");
+      if (el) {
+        el.textContent = new Date().toLocaleTimeString("en-IN", { hour12: false });
+      }
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+
+    btn.addEventListener("click", function () {
+      var current = html.getAttribute("data-theme") || "dark";
+      applyTheme(current === "dark" ? "light" : "dark");
+    });
+
+    window.addEventListener("storage", function (e) {
+      if (e.key === STORAGE_KEY && (e.newValue === "light" || e.newValue === "dark")) {
+        applyTheme(e.newValue);
+      }
+    });
+  });
+})();
+</script>

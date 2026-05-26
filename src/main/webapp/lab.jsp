@@ -13,244 +13,34 @@
 <link rel="stylesheet" href="/css/medicore.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-<style>
-/* ── LAB PAGE STYLES (dark theme) ── */
-
-/* Report cards grid */
-.lab-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1rem;
-    padding: 1.2rem;
-}
-
-.lab-card {
-    background: rgba(255,255,255,.03);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.15rem;
-    display: flex;
-    flex-direction: column;
-    gap: .65rem;
-    transition: transform .2s, box-shadow .2s, border-color .2s;
-    animation: fadeUp .35s both;
-    position: relative;
-    overflow: hidden;
-}
-
-.lab-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    border-radius: 2px 2px 0 0;
-}
-
-.lab-card.status-pending::before   { background: #f59e0b; }
-.lab-card.status-completed::before { background: #10b981; }
-.lab-card.status-cancelled::before { background: #ef4444; }
-
-.lab-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(0,212,255,.3);
-    box-shadow: 0 8px 30px rgba(0,0,0,.4);
-}
-
-/* Test icon */
-.test-icon {
-    width: 38px; height: 38px;
-    border-radius: 9px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1rem;
-    flex-shrink: 0;
-}
-
-.icon-pending   { background: rgba(245,158,11,.15); color: #fcd34d; }
-.icon-completed { background: rgba(16,185,129,.15); color: #6ee7b7; }
-.icon-cancelled { background: rgba(239,68,68,.15);  color: #fca5a5; }
-.icon-default   { background: rgba(0,212,255,.1);   color: var(--accent); }
-
-/* Status badge */
-.status-badge-lab {
-    display: inline-flex; align-items: center; gap: .25rem;
-    font-size: .68rem; font-weight: 600;
-    padding: .18rem .55rem; border-radius: 20px;
-    letter-spacing: .03em;
-}
-
-.badge-pending   { background: rgba(245,158,11,.15); color: #fcd34d; border: 1px solid rgba(245,158,11,.3); }
-.badge-completed { background: rgba(16,185,129,.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,.3); }
-.badge-cancelled { background: rgba(239,68,68,.15);  color: #fca5a5; border: 1px solid rgba(239,68,68,.3); }
-
-/* Result badge */
-.result-badge {
-    display: inline-flex; align-items: center; gap: .25rem;
-    font-size: .65rem; font-weight: 600;
-    padding: .15rem .5rem; border-radius: 20px;
-}
-
-.result-normal   { background: rgba(16,185,129,.12); color: #6ee7b7; }
-.result-abnormal { background: rgba(245,158,11,.12); color: #fcd34d; }
-.result-critical { background: rgba(239,68,68,.12);  color: #fca5a5; }
-.result-pending  { background: rgba(148,163,184,.1); color: var(--muted); }
-
-.lab-test-name {
-    font-size: .9rem; font-weight: 600;
-    color: var(--text);
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-
-.lab-patient {
-    font-size: .75rem; color: var(--muted);
-    display: flex; align-items: center; gap: .3rem;
-}
-
-.lab-date {
-    font-size: .68rem; color: var(--muted);
-    display: flex; align-items: center; gap: .3rem;
-}
-
-.lab-remarks {
-    font-size: .7rem; color: var(--muted);
-    font-style: italic;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-
-.lab-actions {
-    display: flex; gap: .45rem; justify-content: flex-end;
-}
-
-/* Action buttons */
-.btn-update-status {
-    padding: .32rem .7rem;
-    background: rgba(0,212,255,.1);
-    color: var(--accent);
-    border: 1px solid rgba(0,212,255,.25);
-    border-radius: 7px;
-    font-size: .7rem; font-weight: 600;
-    font-family: 'Sora', sans-serif;
-    cursor: pointer;
-    display: inline-flex; align-items: center; gap: .3rem;
-    transition: background .2s;
-}
-
-.btn-update-status:hover { background: rgba(0,212,255,.2); }
-
-.btn-del {
-    padding: .32rem .7rem;
-    background: rgba(239,68,68,.12);
-    color: #fca5a5;
-    border: 1px solid rgba(239,68,68,.3);
-    border-radius: 7px;
-    font-size: .7rem; font-weight: 600;
-    font-family: 'Sora', sans-serif;
-    cursor: pointer;
-    display: inline-flex; align-items: center; gap: .3rem;
-    transition: background .2s;
-}
-
-.btn-del:hover { background: rgba(239,68,68,.25); color: #fff; }
-
-/* Filter chips */
-.filter-chips { display: flex; gap: .4rem; flex-wrap: wrap; }
-
-.chip {
-    padding: .28rem .72rem;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: transparent;
-    font-size: .7rem; font-weight: 500;
-    color: var(--muted);
-    cursor: pointer;
-    font-family: 'Sora', sans-serif;
-    transition: all .2s;
-}
-
-.chip.active { background: var(--accent); color: #000; border-color: var(--accent); }
-.chip:hover:not(.active) { border-color: var(--accent); color: var(--accent); }
-
-/* Update status modal */
-.modal-box.wide { width: 420px; text-align: left; }
-.modal-box.wide .modal-icon { background: rgba(0,212,255,.12); color: var(--accent); margin-bottom: .8rem; }
-
-.status-form-group { margin-bottom: .9rem; }
-
-.status-form-label {
-    display: block;
-    font-size: .7rem; font-weight: 600;
-    text-transform: uppercase; letter-spacing: .08em;
-    color: var(--muted); margin-bottom: .35rem;
-}
-
-.status-form-input {
-    width: 100%;
-    padding: .6rem .9rem;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-family: 'Sora', sans-serif;
-    font-size: .83rem;
-    color: var(--text);
-    background: rgba(255,255,255,.04);
-    outline: none;
-    transition: border-color .2s;
-    appearance: none;
-}
-
-.status-form-input:focus { border-color: var(--accent); }
-
-select.status-form-input option { background: #151d2e; color: var(--text); }
-
-.btn-save-status {
-    width: 100%;
-    padding: .7rem;
-    background: var(--accent);
-    color: #000;
-    border: none;
-    border-radius: 8px;
-    font-family: 'Sora', sans-serif;
-    font-size: .85rem; font-weight: 700;
-    cursor: pointer;
-    margin-bottom: .5rem;
-    transition: opacity .2s;
-}
-
-.btn-save-status:hover { opacity: .85; }
-
-/* field overrides for dark */
-.field-input {
-    background: rgba(255,255,255,.04);
-    border: 1px solid var(--border);
-    color: var(--text);
-}
-
-.field-input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(0,212,255,.1);
-    background: rgba(255,255,255,.06);
-}
-
-.field-input::placeholder { color: var(--muted); }
-select.field-input option { background: #151d2e; color: var(--text); }
-.panel-head { border-bottom: 1px solid var(--border); }
-.table-head-bar { border-bottom: 1px solid var(--border); }
-</style>
 </head>
 <body>
+<!-- NAVBAR -->
+    <nav class="top-nav navbar py-2 px-3 px-lg-4">
+        <a href="#" class="brand">
+            <span class="brand-icon"><i class="bi bi-heart-pulse-fill"></i></span>
+            MediCore <sup style="font-size:.55rem;color:var(--muted);margin-left:4px;">HMS</sup>
+        </a>
 
-<!-- ═══ TOPBAR ═══ -->
-<nav class="topbar">
-    <a href="/dashboard.jsp" class="navbar-brand">
-        <span class="brand-dot"></span>
-        MediCore <sup style="font-size:.55rem;letter-spacing:.12em;color:var(--muted);font-family:'Sora',sans-serif;">HMS</sup>
-    </a>
-    <div class="topbar-right">
-        <div class="breadcrumb-trail">
-            <a href="/dashboard.jsp"><i class="bi bi-house"></i></a>
-            <i class="bi bi-chevron-right" style="font-size:.6rem;"></i>
-            <span>Lab & Reports</span>
+        <div class="d-flex align-items-center gap-3">
+            <button
+                  class="theme-toggle"
+                  id="themeToggle"
+                  aria-label="Toggle light / dark theme"
+                  title="Toggle theme">
+                  <i class="bi bi-moon-stars-fill icon-moon" aria-hidden="true"></i>
+                  <i class="bi bi-sun-fill icon-sun" aria-hidden="true"></i>
+            </button>
+            <div class="topbar-right">
+                <div class="breadcrumb-trail">
+                    <a href="/dashboard.jsp"><i class="bi bi-house"></i></a>
+                    <i class="bi bi-chevron-right" style="font-size:.6rem;"></i>
+                    <span>lab & Reports</span>
+                </div>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+
 
 <!-- ═══ PAGE ═══ -->
 <div class="page-wrap">
@@ -980,3 +770,52 @@ $(document).ready(function() {
 
 </body>
 </html>
+<script>
+(function () {
+  "use strict";
+
+  var STORAGE_KEY = "medicore-theme";
+  var html        = document.documentElement;
+
+  function getPreferred() {
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === "light" || saved === "dark") return saved;
+    return window.matchMedia("(prefers-color-scheme: light)").matches
+      ? "light"
+      : "dark";
+  }
+
+  function applyTheme(theme) {
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem(STORAGE_KEY, theme);
+  }
+
+  applyTheme(getPreferred());
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    function tick() {
+      var el = document.getElementById("liveClock");
+      if (el) {
+        el.textContent = new Date().toLocaleTimeString("en-IN", { hour12: false });
+      }
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+
+    btn.addEventListener("click", function () {
+      var current = html.getAttribute("data-theme") || "dark";
+      applyTheme(current === "dark" ? "light" : "dark");
+    });
+
+    window.addEventListener("storage", function (e) {
+      if (e.key === STORAGE_KEY && (e.newValue === "light" || e.newValue === "dark")) {
+        applyTheme(e.newValue);
+      }
+    });
+  });
+})();
+</script>

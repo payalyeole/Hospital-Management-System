@@ -17,156 +17,35 @@
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-<style>
-/* ── APPOINTMENT-SPECIFIC STYLES ── */
-
-/* Timeline list view */
-.appt-list { padding: 0 1.2rem 1rem; }
-
-.appt-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.1rem;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: .7rem;
-    transition: transform .2s, box-shadow .2s, border-color .2s;
-    animation: fadeUp .35s both;
-}
-
-.appt-item:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-    border-color: #c7d7f5;
-}
-
-.appt-date-block {
-    text-align: center;
-    background: var(--accent-l);
-    border-radius: 10px;
-    padding: .55rem .8rem;
-    min-width: 54px;
-    flex-shrink: 0;
-}
-
-.appt-day {
-    font-family: 'Instrument Serif', serif;
-    font-size: 1.5rem;
-    line-height: 1;
-    color: var(--accent);
-}
-
-.appt-month {
-    font-size: .62rem;
-    text-transform: uppercase;
-    letter-spacing: .1em;
-    color: var(--accent);
-    font-weight: 600;
-}
-
-.appt-info { flex: 1; min-width: 0; }
-
-.appt-title {
-    font-size: .9rem;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: .2rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.appt-sub {
-    font-size: .75rem;
-    color: var(--muted);
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    flex-wrap: wrap;
-}
-
-.appt-id {
-    font-size: .68rem;
-    color: var(--muted);
-    flex-shrink: 0;
-}
-
-.appt-actions { flex-shrink: 0; }
-
-/* Table view */
-.appt-table-wrap { overflow-x: auto; }
-
-/* Status badge */
-.status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: .25rem;
-    font-size: .68rem;
-    font-weight: 600;
-    padding: .18rem .55rem;
-    border-radius: 20px;
-    letter-spacing: .03em;
-}
-
-.status-scheduled  { background: #dbeafe; color: #1d4ed8; }
-.status-completed  { background: #d1fae5; color: #065f46; }
-.status-cancelled  { background: #fee2e2; color: #b91c1c; }
-
-/* Select dropdown enhancements */
-.select-wrap { position: relative; }
-.select-icon {
-    position: absolute; left: .85rem; top: 50%;
-    transform: translateY(-50%);
-    color: var(--muted); font-size: .95rem;
-    pointer-events: none; z-index: 1;
-}
-
-/* Date input */
-input[type="date"].field-input {
-    padding-left: 2.4rem;
-    color-scheme: light;
-}
-
-/* Today button */
-.btn-today {
-    padding: .42rem .8rem;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    background: var(--bg);
-    color: var(--muted);
-    font-family: 'Sora', sans-serif;
-    font-size: .75rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all .2s;
-    white-space: nowrap;
-}
-.btn-today:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: var(--accent-l);
-}
-</style>
 </head>
 
 <body>
 
-<!-- ═══ TOPBAR ═══ -->
-<nav class="topbar">
-    <a href="#" class="navbar-brand">
-        <span class="brand-dot"></span>
-        MediCore <sup style="font-size:.55rem;letter-spacing:.12em;color:var(--muted);font-family:'DM Sans',sans-serif;">HMS</sup>
-    </a>
-    <div class="topbar-right">
-        <div class="breadcrumb-trail">
-            <a href="/dashboard.jsp"><i class="bi bi-house"></i></a>
-            <i class="bi bi-chevron-right" style="font-size:.6rem;"></i>
-            <span>Appointments</span>
+<!-- NAVBAR -->
+    <nav class="top-nav navbar py-2 px-3 px-lg-4">
+        <a href="#" class="brand">
+            <span class="brand-icon"><i class="bi bi-heart-pulse-fill"></i></span>
+            MediCore <sup style="font-size:.55rem;color:var(--muted);margin-left:4px;">HMS</sup>
+        </a>
+
+        <div class="d-flex align-items-center gap-3">
+            <button
+                  class="theme-toggle"
+                  id="themeToggle"
+                  aria-label="Toggle light / dark theme"
+                  title="Toggle theme">
+                  <i class="bi bi-moon-stars-fill icon-moon" aria-hidden="true"></i>
+                  <i class="bi bi-sun-fill icon-sun" aria-hidden="true"></i>
+            </button>
+            <div class="topbar-right">
+                <div class="breadcrumb-trail">
+                    <a href="/dashboard.jsp"><i class="bi bi-house"></i></a>
+                    <i class="bi bi-chevron-right" style="font-size:.6rem;"></i>
+                    <span>Appointments</span>
+                </div>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
 <!-- ═══ PAGE ═══ -->
 <div class="page-wrap">
@@ -771,3 +650,52 @@ $(document).ready(function() {
 
 </body>
 </html>
+<script>
+(function () {
+  "use strict";
+
+  var STORAGE_KEY = "medicore-theme";
+  var html        = document.documentElement;
+
+  function getPreferred() {
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === "light" || saved === "dark") return saved;
+    return window.matchMedia("(prefers-color-scheme: light)").matches
+      ? "light"
+      : "dark";
+  }
+
+  function applyTheme(theme) {
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem(STORAGE_KEY, theme);
+  }
+
+  applyTheme(getPreferred());
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    function tick() {
+      var el = document.getElementById("liveClock");
+      if (el) {
+        el.textContent = new Date().toLocaleTimeString("en-IN", { hour12: false });
+      }
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+
+    btn.addEventListener("click", function () {
+      var current = html.getAttribute("data-theme") || "dark";
+      applyTheme(current === "dark" ? "light" : "dark");
+    });
+
+    window.addEventListener("storage", function (e) {
+      if (e.key === STORAGE_KEY && (e.newValue === "light" || e.newValue === "dark")) {
+        applyTheme(e.newValue);
+      }
+    });
+  });
+})();
+</script>

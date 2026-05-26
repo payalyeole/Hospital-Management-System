@@ -10,182 +10,36 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-<link rel="stylesheet" href="/css/medicore.css">
+<link rel="stylesheet" href="../css/medicore.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-<style>
-/* ── REPORTS PAGE STYLES (dark theme) ── */
-
-.report-section {
-    background: rgba(255,255,255,.03);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    margin-bottom: 1.5rem;
-    overflow: hidden;
-    animation: fadeUp .4s both;
-}
-
-.report-section-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: .9rem 1.2rem;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-    user-select: none;
-}
-
-.report-section-head:hover { background: rgba(255,255,255,.02); }
-
-.report-section-title {
-    display: flex; align-items: center; gap: .6rem;
-    font-family: 'Instrument Serif', serif;
-    font-size: 1rem; color: var(--text);
-}
-
-.section-icon {
-    width: 32px; height: 32px;
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: .85rem;
-}
-
-.section-count {
-    font-size: .72rem; font-weight: 600;
-    padding: .15rem .55rem; border-radius: 20px;
-    background: rgba(0,212,255,.1); color: var(--accent);
-    border: 1px solid rgba(0,212,255,.2);
-}
-
-.report-body { padding: 1rem 1.2rem; }
-
-.report-table {
-    width: 100%; border-collapse: collapse;
-    font-size: .8rem;
-}
-
-.report-table th {
-    font-size: .65rem; text-transform: uppercase; letter-spacing: .1em;
-    color: var(--muted); font-weight: 600;
-    padding: .5rem .7rem;
-    border-bottom: 1px solid var(--border);
-    text-align: left;
-}
-
-.report-table td {
-    padding: .6rem .7rem;
-    border-bottom: 1px solid rgba(255,255,255,.04);
-    color: var(--text);
-    vertical-align: middle;
-}
-
-.report-table tr:last-child td { border-bottom: none; }
-.report-table tr:hover td { background: rgba(255,255,255,.02); }
-
-/* Summary cards */
-.summary-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.summary-card {
-    background: rgba(255,255,255,.03);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1rem 1.1rem;
-    animation: fadeUp .4s both;
-}
-
-.summary-card-icon {
-    font-size: 1.4rem;
-    margin-bottom: .4rem;
-}
-
-.summary-card-val {
-    font-family: 'Instrument Serif', serif;
-    font-size: 1.8rem; color: var(--text); line-height: 1;
-    margin-bottom: .2rem;
-}
-
-.summary-card-label {
-    font-size: .7rem; color: var(--muted);
-    text-transform: uppercase; letter-spacing: .08em;
-}
-
-/* Export buttons */
-.export-bar {
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: .7rem;
-    margin-bottom: 1.5rem;
-    animation: fadeUp .35s both;
-}
-
-.export-bar-title {
-    font-family: 'Instrument Serif', serif;
-    font-size: 1.05rem; color: var(--text);
-}
-
-.export-btns { display: flex; gap: .5rem; flex-wrap: wrap; }
-
-.btn-export {
-    display: inline-flex; align-items: center; gap: .4rem;
-    padding: .5rem 1rem;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: rgba(255,255,255,.04);
-    color: var(--text);
-    font-family: 'Sora', sans-serif;
-    font-size: .78rem; font-weight: 500;
-    cursor: pointer;
-    transition: all .2s;
-}
-
-.btn-export:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,212,255,.06); }
-
-.btn-export.primary {
-    background: var(--accent); color: #000;
-    border-color: var(--accent); font-weight: 700;
-}
-
-.btn-export.primary:hover { opacity: .85; }
-
-/* Collapse arrow */
-.collapse-arrow { transition: transform .25s; }
-.collapsed .collapse-arrow { transform: rotate(-90deg); }
-
-/* Loading spinner */
-.loading-row td { text-align: center; padding: 1.5rem; color: var(--muted); font-size: .82rem; }
-
-/* print styles */
-@media print {
-    .topbar, .export-bar, .btn-export, .report-section-head { display: none !important; }
-    body { background: #fff !important; color: #000 !important; }
-    .report-section { border: 1px solid #ddd !important; background: #fff !important; }
-    .report-table th, .report-table td { color: #000 !important; border-color: #ddd !important; }
-    .summary-card { background: #f9f9f9 !important; border-color: #ddd !important; }
-    .summary-card-val, .summary-card-label { color: #000 !important; }
-    .page-wrap { padding: 0 !important; }
-}
-</style>
 </head>
 <body>
+<!-- NAVBAR -->
+    <nav class="top-nav navbar py-2 px-3 px-lg-4">
+        <a href="#" class="brand">
+            <span class="brand-icon"><i class="bi bi-heart-pulse-fill"></i></span>
+            MediCore <sup style="font-size:.55rem;color:var(--muted);margin-left:4px;">HMS</sup>
+        </a>
 
-<!-- ═══ TOPBAR ═══ -->
-<nav class="topbar">
-    <a href="/dashboard.jsp" class="navbar-brand">
-        <span class="brand-dot"></span>
-        MediCore <sup style="font-size:.55rem;letter-spacing:.12em;color:var(--muted);font-family:'Sora',sans-serif;">HMS</sup>
-    </a>
-    <div class="topbar-right">
-        <div class="breadcrumb-trail">
-            <a href="/dashboard.jsp"><i class="bi bi-house"></i></a>
-            <i class="bi bi-chevron-right" style="font-size:.6rem;"></i>
-            <span>Export Reports</span>
+        <div class="d-flex align-items-center gap-3">
+            <button
+                  class="theme-toggle"
+                  id="themeToggle"
+                  aria-label="Toggle light / dark theme"
+                  title="Toggle theme">
+                  <i class="bi bi-moon-stars-fill icon-moon" aria-hidden="true"></i>
+                  <i class="bi bi-sun-fill icon-sun" aria-hidden="true"></i>
+            </button>
+            <div class="topbar-right">
+                <div class="breadcrumb-trail">
+                    <a href="/dashboard.jsp"><i class="bi bi-house"></i></a>
+                    <i class="bi bi-chevron-right" style="font-size:.6rem;"></i>
+                    <span>Export Reports</span>
+                </div>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
 <div class="page-wrap">
 
@@ -654,3 +508,52 @@ $(document).ready(function() {
 </script>
 </body>
 </html>
+<script>
+(function () {
+  "use strict";
+
+  var STORAGE_KEY = "medicore-theme";
+  var html        = document.documentElement;
+
+  function getPreferred() {
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === "light" || saved === "dark") return saved;
+    return window.matchMedia("(prefers-color-scheme: light)").matches
+      ? "light"
+      : "dark";
+  }
+
+  function applyTheme(theme) {
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem(STORAGE_KEY, theme);
+  }
+
+  applyTheme(getPreferred());
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    function tick() {
+      var el = document.getElementById("liveClock");
+      if (el) {
+        el.textContent = new Date().toLocaleTimeString("en-IN", { hour12: false });
+      }
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+
+    btn.addEventListener("click", function () {
+      var current = html.getAttribute("data-theme") || "dark";
+      applyTheme(current === "dark" ? "light" : "dark");
+    });
+
+    window.addEventListener("storage", function (e) {
+      if (e.key === STORAGE_KEY && (e.newValue === "light" || e.newValue === "dark")) {
+        applyTheme(e.newValue);
+      }
+    });
+  });
+})();
+</script>

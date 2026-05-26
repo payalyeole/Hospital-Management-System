@@ -14,88 +14,36 @@
 <!-- Shared HMS Stylesheet -->
 <link rel="stylesheet" href="/css/medicore.css">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<style>
-/* ── DOCTOR-SPECIFIC STYLES ONLY ── */
-
-.doctor-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1rem;
-    padding: 1.2rem;
-}
-
-.doctor-card {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.1rem;
-    display: flex;
-    flex-direction: column;
-    gap: .6rem;
-    transition: transform .2s, box-shadow .2s, border-color .2s;
-    animation: fadeUp .35s both;
-}
-
-.doctor-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lg);
-    border-color: #c7d7f5;
-}
-
-.doc-avatar {
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    background: var(--accent-l);
-    color: var(--accent);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem; font-weight: 600;
-    font-family: 'Instrument Serif', serif;
-    flex-shrink: 0;
-}
-
-.doc-info { flex: 1; }
-
-.doc-name {
-    font-size: .9rem; font-weight: 600; color: var(--text);
-    margin-bottom: .15rem;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-
-.doc-id { font-size: .68rem; color: var(--muted); }
-
-.doc-actions { display: flex; gap: .5rem; justify-content: flex-end; }
-
-/* Table alias — reuse shared .data-table class */
-.doc-table { width: 100%; border-collapse: collapse; }
-.doc-table th {
-    padding: .75rem 1rem; font-size: .68rem; text-transform: uppercase;
-    letter-spacing: .1em; color: var(--muted); font-weight: 600;
-    border-bottom: 1px solid var(--border); text-align: left;
-}
-.doc-table td {
-    padding: .85rem 1rem; font-size: .83rem;
-    border-bottom: 1px solid var(--border); vertical-align: middle;
-}
-.doc-table tr:last-child td { border-bottom: none; }
-</style>
 </head>
 
 <body>
+<!-- NAVBAR -->
+    <nav class="top-nav navbar py-2 px-3 px-lg-4">
+        <a href="#" class="brand">
+            <span class="brand-icon"><i class="bi bi-heart-pulse-fill"></i></span>
+            MediCore <sup style="font-size:.55rem;color:var(--muted);margin-left:4px;">HMS</sup>
+        </a>
 
-<!-- ═══ TOPBAR ═══ -->
-<nav class="topbar">
-    <a href="#" class="navbar-brand">
-        <span class="brand-dot"></span>
-        MediCore <sup style="font-size:.55rem;letter-spacing:.12em;color:var(--muted);font-family:'DM Sans',sans-serif;">HMS</sup>
-    </a>
-    <div class="topbar-right">
-        <div class="breadcrumb-trail">
-            <a href="/dashboard.jsp"><i class="bi bi-house"></i></a>
-            <i class="bi bi-chevron-right" style="font-size:.6rem;"></i>
-            <span>Doctors</span>
+        <div class="d-flex align-items-center gap-3">
+            <button
+                  class="theme-toggle"
+                  id="themeToggle"
+                  aria-label="Toggle light / dark theme"
+                  title="Toggle theme">
+                  <i class="bi bi-moon-stars-fill icon-moon" aria-hidden="true"></i>
+                  <i class="bi bi-sun-fill icon-sun" aria-hidden="true"></i>
+            </button>
+            <div class="topbar-right">
+                <div class="breadcrumb-trail">
+                    <a href="/dashboard.jsp"><i class="bi bi-house"></i></a>
+                    <i class="bi bi-chevron-right" style="font-size:.6rem;"></i>
+                    <span>Doctors</span>
+                </div>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+
+
 
 <!-- ═══ PAGE ═══ -->
 <div class="page-wrap">
@@ -579,3 +527,52 @@ $(document).ready(function() { loadDoctors(); });
 
 </body>
 </html>
+<script>
+(function () {
+  "use strict";
+
+  var STORAGE_KEY = "medicore-theme";
+  var html        = document.documentElement;
+
+  function getPreferred() {
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === "light" || saved === "dark") return saved;
+    return window.matchMedia("(prefers-color-scheme: light)").matches
+      ? "light"
+      : "dark";
+  }
+
+  function applyTheme(theme) {
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem(STORAGE_KEY, theme);
+  }
+
+  applyTheme(getPreferred());
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    function tick() {
+      var el = document.getElementById("liveClock");
+      if (el) {
+        el.textContent = new Date().toLocaleTimeString("en-IN", { hour12: false });
+      }
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+
+    btn.addEventListener("click", function () {
+      var current = html.getAttribute("data-theme") || "dark";
+      applyTheme(current === "dark" ? "light" : "dark");
+    });
+
+    window.addEventListener("storage", function (e) {
+      if (e.key === STORAGE_KEY && (e.newValue === "light" || e.newValue === "dark")) {
+        applyTheme(e.newValue);
+      }
+    });
+  });
+})();
+</script>

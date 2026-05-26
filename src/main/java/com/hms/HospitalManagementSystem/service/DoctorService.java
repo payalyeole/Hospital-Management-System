@@ -21,65 +21,66 @@ public class DoctorService {
     @Autowired
     private DoctorRepository doctorRepository;
 
-    public Page<Doctor> getAllDoctors(int page, int size){
-        try{
+    public Page<Doctor> getAllDoctors(int page, int size) {
+        try {
             System.out.println("into service layer");
             Pageable pageable = PageRequest.of(page, size);
             return doctorRepository.findAll(pageable);
-        }catch (Exception e){
-            System.out.println("Error message: " +e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error message: " + e.getMessage());
             logger.error("An error occurred while fetching all doctors: {}", e.getMessage());
             return null;
         }
     }
 
-    public Doctor getDoctorById(Long id){
-        try{
-            Optional <Doctor> doctor = doctorRepository.findById(id);
+    public Doctor getDoctorById(Long id) {
+        try {
+            Optional<Doctor> doctor = doctorRepository.findById(id);
             return doctor.orElse(null);
-        }catch (Exception e){
-            System.out.println("Error message: " +e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error message: " + e.getMessage());
             logger.error("An error occurred while fetching doctor by id {} : {}", id, e.getMessage());
             return null;
         }
     }
 
-    public Doctor createDoctor(Doctor doctor){
-        try{
+    public Doctor createDoctor(Doctor doctor) {
+        try {
             doctorRepository.save(doctor);
             return doctor;
-        }catch (Exception e){
-            System.out.println("Error message: " +e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error message: " + e.getMessage());
             logger.error("An error occurred while creating doctor {}", e.getMessage());
             return null;
         }
     }
 
-    public void deleteDoctor(Long id){
-        try{
-            logger.info("Deleting doctor by ID: {}" , id);
+    public void deleteDoctor(Long id) {
+        try {
+            logger.info("Deleting doctor by ID: {}", id);
             doctorRepository.deleteById(id);
-        }catch (Exception e){
-            System.out.println("Error message: "+e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error message: " + e.getMessage());
             logger.error("An error occurred while deleting doctor by id {}", e.getMessage());
         }
     }
 
-    public Doctor updateDoctor(Long id, Doctor updateDoctor){
-        try{
-            Optional <Doctor> existingDoctor = doctorRepository.findById(id);
-            if (existingDoctor.isPresent()){
-                Doctor d = existingDoctor.get();;
+    public Doctor updateDoctor(Long id, Doctor updateDoctor) {
+        try {
+            Optional<Doctor> existingDoctor = doctorRepository.findById(id);
+            if (existingDoctor.isPresent()) {
+                Doctor d = existingDoctor.get();
+                ;
                 d.setName(updateDoctor.getName());
                 d.setSpeciality(updateDoctor.getSpeciality());
                 doctorRepository.save(d);
                 return d;
-            }else {
+            } else {
                 logger.error("Doctor with Id {} not found", id);
                 return null;
             }
-        }catch (Exception e){
-            System.out.println("Error message: "+e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error message: " + e.getMessage());
             logger.error("An error occurred while updating doctor {}", e.getMessage());
             return null;
         }

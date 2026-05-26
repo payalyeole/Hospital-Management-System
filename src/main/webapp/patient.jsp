@@ -16,140 +16,34 @@
 <link rel="stylesheet" href="/css/medicore.css">
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-<style>
-/* ── PATIENT-SPECIFIC STYLES ── */
-
-/* Patient cards grid */
-.patient-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    gap: 1rem;
-    padding: 1.2rem;
-}
-
-.patient-card {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.15rem;
-    display: flex;
-    flex-direction: column;
-    gap: .65rem;
-    transition: transform .2s, box-shadow .2s, border-color .2s;
-    animation: fadeUp .35s both;
-}
-
-.patient-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lg);
-    border-color: #c7d7f5;
-}
-
-.patient-card-top {
-    display: flex;
-    align-items: center;
-    gap: .75rem;
-}
-
-.patient-name {
-    font-size: .9rem;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: .2rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.patient-meta {
-    display: flex;
-    align-items: center;
-    gap: .4rem;
-    flex-wrap: wrap;
-}
-
-.age-badge {
-    font-size: .7rem;
-    font-weight: 600;
-    padding: .15rem .5rem;
-    border-radius: 20px;
-    background: var(--success-l);
-    color: var(--success);
-}
-
-.patient-id {
-    font-size: .68rem;
-    color: var(--muted);
-}
-
-.patient-card-actions {
-    display: flex;
-    gap: .5rem;
-    justify-content: flex-end;
-    margin-top: .15rem;
-}
-
-/* Age range indicator bar */
-.age-bar-wrap {
-    height: 3px;
-    background: var(--border);
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-.age-bar {
-    height: 100%;
-    border-radius: 3px;
-    background: linear-gradient(90deg, var(--accent), var(--success));
-}
-
-/* Filter chips */
-.filter-chips {
-    display: flex;
-    gap: .4rem;
-    flex-wrap: wrap;
-}
-
-.chip {
-    padding: .3rem .75rem;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: var(--bg);
-    font-size: .72rem;
-    font-weight: 500;
-    color: var(--muted);
-    cursor: pointer;
-    font-family: 'Sora', sans-serif;
-    transition: all .2s;
-}
-
-.chip.active {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-}
-
-
-</style>
 </head>
 
 <body>
+<!-- NAVBAR -->
+    <nav class="top-nav navbar py-2 px-3 px-lg-4">
+        <a href="#" class="brand">
+            <span class="brand-icon"><i class="bi bi-heart-pulse-fill"></i></span>
+            MediCore <sup style="font-size:.55rem;color:var(--muted);margin-left:4px;">HMS</sup>
+        </a>
 
-<!-- ═══ TOPBAR ═══ -->
-<nav class="topbar">
-    <a href="#" class="navbar-brand">
-        <span class="brand-dot"></span>
-        MediCore <sup style="font-size:.55rem;letter-spacing:.12em;color:var(--muted);font-family:'DM Sans',sans-serif;">HMS</sup>
-    </a>
-    <div class="topbar-right">
-        <div class="breadcrumb-trail">
-            <a href="/dashboard.jsp"><i class="bi bi-house"></i></a>
-            <i class="bi bi-chevron-right" style="font-size:.6rem;"></i>
-            <span>Doctors</span>
+        <div class="d-flex align-items-center gap-3">
+            <button
+                  class="theme-toggle"
+                  id="themeToggle"
+                  aria-label="Toggle light / dark theme"
+                  title="Toggle theme">
+                  <i class="bi bi-moon-stars-fill icon-moon" aria-hidden="true"></i>
+                  <i class="bi bi-sun-fill icon-sun" aria-hidden="true"></i>
+            </button>
+            <div class="topbar-right">
+                <div class="breadcrumb-trail">
+                    <a href="/dashboard.jsp"><i class="bi bi-house"></i></a>
+                    <i class="bi bi-chevron-right" style="font-size:.6rem;"></i>
+                    <span>Patients</span>
+                </div>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
 <!-- ═══ PAGE ═══ -->
 <div class="page-wrap">
@@ -687,3 +581,52 @@ $(document).ready(function() { loadPatients(); });
 
 </body>
 </html>
+<script>
+(function () {
+  "use strict";
+
+  var STORAGE_KEY = "medicore-theme";
+  var html        = document.documentElement;
+
+  function getPreferred() {
+    var saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === "light" || saved === "dark") return saved;
+    return window.matchMedia("(prefers-color-scheme: light)").matches
+      ? "light"
+      : "dark";
+  }
+
+  function applyTheme(theme) {
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem(STORAGE_KEY, theme);
+  }
+
+  applyTheme(getPreferred());
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    function tick() {
+      var el = document.getElementById("liveClock");
+      if (el) {
+        el.textContent = new Date().toLocaleTimeString("en-IN", { hour12: false });
+      }
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    var btn = document.getElementById("themeToggle");
+    if (!btn) return;
+
+    btn.addEventListener("click", function () {
+      var current = html.getAttribute("data-theme") || "dark";
+      applyTheme(current === "dark" ? "light" : "dark");
+    });
+
+    window.addEventListener("storage", function (e) {
+      if (e.key === STORAGE_KEY && (e.newValue === "light" || e.newValue === "dark")) {
+        applyTheme(e.newValue);
+      }
+    });
+  });
+})();
+</script>

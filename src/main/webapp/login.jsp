@@ -1,192 +1,65 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Hospital Management System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .login-container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transform: translateY(0);
-            transition: all 0.3s ease;
-        }
-        .login-container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .header h2 {
-            color: #2c3e50;
-            font-weight: 700;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        .header p {
-            color: #7f8c8d;
-            font-size: 14px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-        .form-group i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #95a5a6;
-            transition: color 0.3s ease;
-        }
-        .form-control {
-            width: 100%;
-            padding: 15px 15px 15px 45px;
-            border: 2px solid #e0e6ed;
-            border-radius: 10px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            outline: none;
-            background: #f8fafc;
-        }
-        .form-control:focus {
-            border-color: #3498db;
-            background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.1);
-        }
-        .form-control:focus + i {
-            color: #3498db;
-        }
-        .btn-login {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
-        }
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
-            background: linear-gradient(135deg, #2980b9, #2471a3);
-        }
-        .alert {
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            text-align: center;
-        }
-        .alert-error {
-            background: #ffeaa7;
-            color: #d63031;
-            border: 1px solid #fdcb6e;
-        }
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 25px;
-            color: #7f8c8d;
-            font-size: 14px;
-        }
-        .footer a {
-            color: #3498db;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-        .footer a:hover {
-            color: #2980b9;
-        }
-        /* Heartbeat animation for icon */
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            14% { transform: scale(1.3); }
-            28% { transform: scale(1); }
-            42% { transform: scale(1.3); }
-            70% { transform: scale(1); }
-        }
-        .hospital-icon {
-            color: #e74c3c;
-            font-size: 40px;
-            margin-bottom: 15px;
-            display: inline-block;
-            animation: heartbeat 2s infinite;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="../css/medicore.css" rel="stylesheet">
+    <script>
+        (function () {
+            var t = localStorage.getItem("medicore-theme");
+            if (!t) t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+            document.documentElement.setAttribute("data-theme", t);
+        })();
+    </script>
 </head>
-<body>
+<body class="auth-body">
 
     <div class="login-container">
-        <div class="header">
-            <i class="fas fa-heartbeat hospital-icon"></i>
+
+        <div class="auth-header">
             <h2>Welcome Back</h2>
             <p>Login to Hospital Management System</p>
         </div>
 
         <c:if test="${param.error != null}">
             <div class="alert alert-error">
-                <i class="fas fa-exclamation-circle"></i> Invalid username or password!
+                <i class="bi bi-exclamation-circle-fill"></i> Invalid username or password!
             </div>
         </c:if>
-        
+
         <c:if test="${param.registered != null}">
             <div class="alert alert-success">
-                <i class="fas fa-check-circle"></i> Registration successful! Please login.
+                <i class="bi bi-check-circle-fill"></i> Registration successful! Please login.
             </div>
         </c:if>
 
         <form method="post" action="/login">
+
             <div class="form-group">
-                <i class="fas fa-user"></i>
-                <input type="text" name="username" class="form-control" placeholder="Username" required>
+                <input type="text" name="username" class="form-control"
+                       placeholder="Username" required>
+                <i class="bi bi-person"></i>
             </div>
 
             <div class="form-group">
-                <i class="fas fa-lock"></i>
-                <input type="password" name="password" class="form-control" placeholder="Password" required>
+                <input type="password" name="password" class="form-control"
+                       placeholder="Password" required>
+                <i class="bi bi-lock"></i>
             </div>
 
             <button type="submit" class="btn-login">Login Securely</button>
+
         </form>
 
-        <div class="footer">
+        <div class="auth-footer">
             Don't have an account? <a href="/register">Create one</a>
         </div>
+
     </div>
 
 </body>
